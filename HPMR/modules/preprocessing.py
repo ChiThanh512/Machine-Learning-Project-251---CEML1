@@ -1,4 +1,8 @@
 import os
+import numpy as np
+import pandas as pd
+import librosa
+from tqdm import tqdm
 
 def extract_features(file_path):
     """Trích xuất 40 đặc trưng MFCC từ một file âm thanh."""
