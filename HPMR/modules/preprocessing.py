@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 def extract_features(file_path):
     try:
         audio, sample_rate = librosa.load(file_path, sr=None)
-        mfccs_features = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=100).T
+        mfccs_features = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40).T
         return mfccs_features
     except Exception as e:
         print(f"Lỗi khi xử lý file {file_path}: {e}")
