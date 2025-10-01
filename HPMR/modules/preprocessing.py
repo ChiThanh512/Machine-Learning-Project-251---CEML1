@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import librosa
 from tqdm import tqdm
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.model_selection import train_test_split
 
 def extract_features(file):
     # Load audio and sample rate of audio
@@ -59,3 +61,62 @@ def read_dataset_and_save_feture(root_folder_path, save_path):
     print(f"\nTrích xuất hoàn tất! Đã tạo và lưu dataset tại: {save_path}")
     print(f"Kích thước mảng đặc trưng (X): {X.shape}")
     print(f"Kích thước mảng nhãn (y): {y.shape}")
+
+def load_and_preprocess_data(data_path):
+    """
+    Tải dữ liệu từ file .npz, chuẩn hóa đặc trưng và mã hóa nhãn.
+
+    Args:
+        data_path (str): Đường dẫn đến file .npz.
+
+    Returns:
+        tuple: Một tuple chứa (X_scaled, y_encoded, class_names)
+               - X_scaled: Mảng đặc trưng đã được chuẩn hóa.
+               - y_encoded: Mảng nhãn đã được mã hóa thành số.
+               - class_names: Danh sách tên các lớp gốc.
+    """
+    print(f"\n--- Đang tải và tiền xử lý dữ liệu từ '{data_path}' ---")
+    if not os.path.exists(data_path):
+        print(f"Lỗi: Không tìm thấy file dữ liệu tại '{data_path}'")
+        return None, None, None
+
+    data = np.load(data_path, allow_pickle=True)
+    X = data['features']
+    y_str = data['labels']
+
+    # 1. Chuẩn hóa đặc trưng (Feature Scaling)
+    # Giúp các mô hình hội tụ nhanh hơn và hoạt động tốt hơn.
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    print("Đã chuẩn hóa đặc trưng (X).")
+
+    # 2. Mã hóa nhãn (Label Encoding)
+    # Chuyển nhãn dạng chữ ('one', 'two') thành dạng số (0, 1, ...).
+    label_encoder = LabelEncoder()
+    y_encoded = label_encoder.fit_transform(y_str)
+    class_names = label_encoder.classes_
+    print(f"Đã mã hóa nhãn (y). Các lớp: {class_names}")
+
+    return X_scaled, y_encoded, class_names
+
+def split_train_test(X, y, test_size=0.2, random_state=42):
+    """
+    Chia dữ liệu thành các tập huấn luyện và kiểm thử.
+
+    Args:
+        X (np.array): Mảng đặc trưng.
+        y (np.array): Mảng nhãn.
+        test_size (float): Tỷ lệ của tập kiểm thử.
+        random_state (int): Hạt giống ngẫu nhiên để đảm bảo kết quả có thể tái tạo.
+
+    Returns:
+        tuple: (X_train, X_test, y_train, y_test)
+    """
+    print("\n--- Đang chia dữ liệu thành tập huấn luyện và kiểm thử... ---")
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=random_state, stratify=y
+    )
+    print(f"Kích thước tập huấn luyện: {X_train.shape}")
+    print(f"Kích thước tập kiểm thử: {X_test.shape}")
+    
+    return X_train, X_test, y_train, y_test
