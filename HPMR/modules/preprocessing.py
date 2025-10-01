@@ -1,3 +1,5 @@
+import os
+
 def extract_features(file_path):
     """Trích xuất 40 đặc trưng MFCC từ một file âm thanh."""
     try:
