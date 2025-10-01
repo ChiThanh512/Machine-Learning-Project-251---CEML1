@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import librosa
 from tqdm import tqdm
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 def extract_features(file):
@@ -64,16 +64,7 @@ def read_dataset_and_save_feture(root_folder_path, save_path):
 
 def load_and_preprocess_data(data_path):
     """
-    Tải dữ liệu từ file .npz, chuẩn hóa đặc trưng và mã hóa nhãn.
-
-    Args:
-        data_path (str): Đường dẫn đến file .npz.
-
-    Returns:
-        tuple: Một tuple chứa (X_scaled, y_encoded, class_names)
-               - X_scaled: Mảng đặc trưng đã được chuẩn hóa.
-               - y_encoded: Mảng nhãn đã được mã hóa thành số.
-               - class_names: Danh sách tên các lớp gốc.
+    Tải dữ liệu từ file .npz, chuẩn hóa đặc trưng và mã hóa nhãn một cách chính xác.
     """
     print(f"\n--- Đang tải và tiền xử lý dữ liệu từ '{data_path}' ---")
     if not os.path.exists(data_path):
@@ -85,19 +76,25 @@ def load_and_preprocess_data(data_path):
     y_str = data['labels']
 
     # 1. Chuẩn hóa đặc trưng (Feature Scaling)
-    # Giúp các mô hình hội tụ nhanh hơn và hoạt động tốt hơn.
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     print("Đã chuẩn hóa đặc trưng (X).")
 
-    # 2. Mã hóa nhãn (Label Encoding)
-    # Chuyển nhãn dạng chữ ('one', 'two') thành dạng số (0, 1, ...).
-    label_encoder = LabelEncoder()
-    y_encoded = label_encoder.fit_transform(y_str)
-    class_names = label_encoder.classes_
-    print(f"Đã mã hóa nhãn (y). Các lớp: {class_names}")
+    # 2. Mã hóa nhãn thủ công để đảm bảo đúng thứ tự
+    label_map = {
+        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
+        'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9
+    }
+    # Tạo mảng class_names theo đúng thứ tự số
+    class_names = sorted(label_map, key=label_map.get)
+
+    # Áp dụng ánh xạ
+    y_encoded = np.array([label_map[label] for label in y_str])
+    
+    print(f"Đã mã hóa nhãn (y) thủ công. Các lớp: {class_names}")
 
     return X_scaled, y_encoded, class_names
+
 
 def split_train_test(X, y, test_size=0.2, random_state=42):
     """
