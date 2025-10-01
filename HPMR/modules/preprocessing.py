@@ -1,30 +1,22 @@
 import os
 import numpy as np
-import pandas as pd
 import librosa
 from tqdm import tqdm
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 
-def extract_features(file):
-    # Load audio and sample rate of audio
-    audio,sample_rate = librosa.load(file)
-    # Extract features using mel-frequency coefficient
-    extracted_features = librosa.feature.mfcc(y=audio,
-                                              sr=sample_rate,
-                                              n_mfcc=40)
-    
-    # Scale the extracted features
-    extracted_features = np.mean(extracted_features.T,axis=0)
-    # Return the extracted features
-    return extracted_features
-    
+def extract_features(file_path):
+    try:
+        audio, sample_rate = librosa.load(file_path, sr=None)
+        mfccs_features = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=100).T
+        return mfccs_features
+    except Exception as e:
+        print(f"Lỗi khi xử lý file {file_path}: {e}")
+        return None
 
 def read_dataset_and_save_feture(root_folder_path, save_path):
-    """
-    Tạo dataset và lưu kết quả dưới dạng file .npz nén.
-    - root_folder_path: Đường dẫn đến thư mục 'spoken_digit_data'.
-    - save_path: Đường dẫn để lưu file .npz.
-    """
-    dataset = []
+    features_list = []
+    labels_list = []
     
     if not os.path.exists(root_folder_path):
         print(f"Lỗi: Không tìm thấy thư mục '{root_folder_path}'")
@@ -35,27 +27,48 @@ def read_dataset_and_save_feture(root_folder_path, save_path):
         if not os.path.isdir(folder_path):
             continue
             
-        for file_name in tqdm(os.listdir(folder_path), desc=f"Files in {label}", leave=False):
+        for file_name in os.listdir(folder_path):
             file_path = os.path.join(folder_path, file_name)
             features = extract_features(file_path)
             if features is not None:
-                dataset.append([features, label])
+                features_list.append(features)
+                labels_list.append(label)
+
+    # Lưu dưới dạng object array để chứa các chuỗi có độ dài khác nhau
+    np.savez_compressed(save_path, features=np.array(features_list, dtype=object), labels=np.array(labels_list))
+    print(f"\nTrích xuất hoàn tất! Đã lưu {len(features_list)} chuỗi đặc trưng.")
+
+def load_and_preprocess_data(data_path):
+    data = np.load(data_path, allow_pickle=True)
+    X_list = data['features']
+    y_str = data['labels']
+
+    # Chuẩn hóa đặc trưng cho từng chuỗi
+    scaler = StandardScaler()
+    # Nối tất cả các chuỗi lại để fit scaler một lần duy nhất
+    X_concatenated = np.vstack(X_list)
+    scaler.fit(X_concatenated)
+    # Áp dụng scaler cho từng chuỗi riêng lẻ
+    X_scaled_list = [scaler.transform(x) for x in X_list]
+
+    # Mã hóa nhãn (giữ nguyên như cũ)
+    label_map = {
+        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
+        'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9
+    }
+    class_names = sorted(label_map, key=label_map.get)
+    y_encoded = np.array([label_map[label] for label in y_str])
+
+    return X_scaled_list, y_encoded, class_names
+
+def split_train_test(X_list, y, test_size=0.2, random_state=42):
+    # Cần chuyển X_list thành mảng tạm để stratify hoạt động
+    indices = np.arange(len(X_list))
+    train_indices, test_indices = train_test_split(indices, test_size=test_size, random_state=random_state, stratify=y)
     
-    # Chuyển danh sách thành DataFrame để dễ xử lý
-    df = pd.DataFrame(dataset, columns=['features', 'class'])
+    X_train = [X_list[i] for i in train_indices]
+    X_test = [X_list[i] for i in test_indices]
+    y_train = y[train_indices]
+    y_test = y[test_indices]
     
-    # --- CHUYỂN ĐỔI VÀ LƯU DƯỚI DẠNG NUMPY ---
-    # Chuyển cột 'features' (list các array) thành một mảng NumPy 2D
-    X = np.array(df['features'].tolist())
-    # Chuyển cột 'class' thành một mảng NumPy 1D
-    y = np.array(df['class'].tolist())
-    
-    # Đảm bảo thư mục lưu trữ tồn tại
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    
-    # Lưu cả hai mảng X và y vào một file .npz nén
-    np.savez_compressed(save_path, features=X, labels=y)
-    
-    print(f"\nTrích xuất hoàn tất! Đã tạo và lưu dataset tại: {save_path}")
-    print(f"Kích thước mảng đặc trưng (X): {X.shape}")
-    print(f"Kích thước mảng nhãn (y): {y.shape}")
+    return X_train, X_test, y_train, y_test
