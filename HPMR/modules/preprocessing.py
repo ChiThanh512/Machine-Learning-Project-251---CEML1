@@ -6,33 +6,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 def extract_features(file_path):
-    """
-    Trích xuất đặc trưng FFT (spectrogram) từ file âm thanh,
-    sử dụng zero-padding cho các file quá ngắn.
-    """
     try:
         audio, sample_rate = librosa.load(file_path, sr=None)
-        
-        # Kích thước cửa sổ FFT, đây là giá trị mặc định của librosa
-        n_fft = 2048
-
-        # 1. Zero-Padding
-        # Nếu tín hiệu âm thanh ngắn hơn cửa sổ FFT, thêm số 0 vào cuối
-        if len(audio) < n_fft:
-            pad_width = n_fft - len(audio)
-            # np.pad(array, (số_lượng_pad_đầu, số_lượng_pad_cuối), mode)
-            audio = np.pad(audio, (0, pad_width), mode='constant')
-
-        # 2. Tính toán STFT (Short-Time Fourier Transform)
-        # Kết quả là một ma trận số phức
-        stft_result = librosa.stft(audio, n_fft=n_fft)
-
-        # 3. Chuyển sang biên độ (magnitude) và đổi sang thang đo decibel (log)
-        spectrogram = librosa.amplitude_to_db(np.abs(stft_result), ref=np.max)
-
-        # 4. Chuyển vị để có dạng (thời_gian, đặc_trưng)
-        return spectrogram.T
-
+        mfccs_features = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=100).T
+        return mfccs_features
     except Exception as e:
         print(f"Lỗi khi xử lý file {file_path}: {e}")
         return None
