@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 def train_and_evaluate_hmm(X_train, X_test, y_train, y_test, class_names):
     """
     Huấn luyện 10 mô hình HMM trên dữ liệu đã được chia sẵn và đánh giá.
@@ -19,28 +21,33 @@ def train_and_evaluate_hmm(X_train, X_test, y_train, y_test, class_names):
     print("\n--- Bắt đầu huấn luyện 10 mô hình HMM... ---")
     hmm_models = []
     for i in range(len(class_names)):
-        # Lấy tất cả các mẫu của lớp hiện tại để huấn luyện
-        X_class = X_train[y_train == i]
+        # Lấy ra danh sách các chuỗi của lớp hiện tại
+        X_class_list = [X_train[j] for j, label in enumerate(y_train) if label == i]
+        
+        # Nối tất cả các chuỗi lại thành một mảng lớn
+        X_class_concatenated = np.vstack(X_class_list)
+        # Tạo mảng lengths để cho HMM biết độ dài của từng chuỗi
+        lengths = [len(x) for x in X_class_list]
         
         # Khởi tạo mô hình GaussianHMM
         # n_components: số trạng thái ẩn (hyperparameter cần tinh chỉnh)
         # covariance_type: "diag" là lựa chọn phổ biến cho MFCC
         model = hmm.GaussianHMM(n_components=5, covariance_type="diag", n_iter=100)
         
-        # Huấn luyện mô hình với dữ liệu của lớp đó
-        model.fit(X_class)
+        # Huấn luyện mô hình với dữ liệu nối và mảng lengths
+        model.fit(X_class_concatenated, lengths=lengths)
         hmm_models.append(model)
         print(f"Đã huấn luyện xong mô hình cho lớp: '{class_names[i]}'")
 
     # 2. ĐÁNH GIÁ TRÊN TẬP KIỂM THỬ
     print("\n--- Đang đánh giá trên tập kiểm thử... ---")
     y_pred = []
-    for test_sample in X_test:
+    # Bây giờ X_test là một danh sách các chuỗi
+    for test_sequence in X_test:
         log_likelihoods = []
-        # Với mỗi mẫu test, tính xác suất nó được tạo ra bởi từng mô hình HMM
         for model in hmm_models:
-            # model.score() trả về log-likelihood
-            score = model.score(test_sample.reshape(1, -1))
+            # Chấm điểm cho từng chuỗi
+            score = model.score(test_sequence)
             log_likelihoods.append(score)
         
         # Tìm chỉ số (lớp) của mô hình có log-likelihood cao nhất
