@@ -4,16 +4,18 @@ import pandas as pd
 import librosa
 from tqdm import tqdm
 
-def extract_features(file_path):
-    """Trích xuất 40 đặc trưng MFCC từ một file âm thanh."""
-    try:
-        audio, sample_rate = librosa.load(file_path, res_type='kaiser_fast') 
-        mfccs_features = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
-        mfccs_scaled_features = np.mean(mfccs_features.T, axis=0)
-        return mfccs_scaled_features
-    except Exception as e:
-        print(f"Lỗi khi xử lý file {file_path}: {e}")
-        return None
+def extract_features(file):
+    # Load audio and sample rate of audio
+    audio,sample_rate = librosa.load(file)
+    # Extract features using mel-frequency coefficient
+    extracted_features = librosa.feature.mfcc(y=audio,
+                                              sr=sample_rate,
+                                              n_mfcc=40)
+    
+    # Scale the extracted features
+    extracted_features = np.mean(extracted_features.T,axis=0)
+    # Return the extracted features
+    return extracted_features
     
 
 def read_dataset_and_save_feture(root_folder_path, save_path):
