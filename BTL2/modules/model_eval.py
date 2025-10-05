@@ -41,7 +41,12 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 # 5. EMBEDDINGS (Word2Vec, GloVe, BERT)
 # ============================================================
 import torch
-!pip install gensim
+import subprocess
+import sys
+try:
+    import gensim
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "gensim"])
 # Word2Vec
 from gensim.models import Word2Vec
 
