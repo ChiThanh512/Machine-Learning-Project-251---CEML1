@@ -1,3 +1,13 @@
+import itertools
+import numpy as np
+from sklearn.metrics import f1_score
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+
 # ================================
 # 1. Hàm tiền xử lý
 # ================================
