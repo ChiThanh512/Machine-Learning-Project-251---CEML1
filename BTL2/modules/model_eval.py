@@ -1,12 +1,19 @@
-import itertools
+# ============================================================
+# 1. XỬ LÝ DỮ LIỆU CƠ BẢN & TRỰC QUAN HÓA
+# ============================================================
+import pandas as pd
 import numpy as np
-from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import LinearSVC
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+import re, string
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from wordcloud import WordCloud
+from textblob import TextBlob
+import itertools
+# ============================================================
+# 2. TIỀN XỬ LÝ VĂN BẢN
+# ============================================================
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -15,8 +22,53 @@ nltk.download('punkt')
 
 STOPWORDS = set(stopwords.words('english'))   # Khởi tạo stopwords
 
+
+# ============================================================
+# 3. TOKENIZER & PADDING (CHO ML / DL)
+# ============================================================
+from transformers import BertTokenizer
+bert_tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+
+from keras.preprocessing.sequence import pad_sequences  # padding cho RNN/LSTM
+
+# ============================================================
+# 4. CHUẨN BỊ TẬP DỮ LIỆU & VECTOR HÓA
+# ============================================================
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+
+# ============================================================
+# 5. EMBEDDINGS (Word2Vec, GloVe, BERT)
+# ============================================================
+import torch
+!pip install gensim
+# Word2Vec
+from gensim.models import Word2Vec
+
+# GloVe (chuyển sang word2vec format)
+from gensim.models import KeyedVectors
+from gensim.scripts.glove2word2vec import glove2word2vec
+
+
+# ============================================================
+# 6. MÔ HÌNH MACHINE LEARNING TRUYỀN THỐNG
+# ============================================================
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+
+
+# ============================================================
+# 7. ĐÁNH GIÁ MÔ HÌNH
+# ============================================================
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+
+
+
 # ================================
-# 1. Hàm tiền xử lý
+#  Hàm tiền xử lý
 # ================================
 def preprocess_texts(texts, config):
     processed = []
@@ -34,7 +86,7 @@ def preprocess_texts(texts, config):
     return processed
 
 # ================================
-# 2. Hàm embedding
+#  Hàm embedding
 # ================================
 def get_embeddings(X_train, method):
     if method == "bow":
@@ -56,7 +108,7 @@ def get_embeddings(X_train, method):
     return X_train_vec, vectorizer
 
 # ================================
-# 3. Hàm tạo classifier
+# Hàm tạo classifier
 # ================================
 def make_clf(name):
     if name == "nb":
@@ -71,7 +123,7 @@ def make_clf(name):
         raise ValueError("Unknown classifier")
 
 # ================================
-# 4. Grid Search qua các lựa chọn
+#  Grid Search qua các lựa chọn
 # ================================
 def run_grid_search(X_train, y_train, X_val, y_val, X_test, y_test):
     preprocessing_opts = [
