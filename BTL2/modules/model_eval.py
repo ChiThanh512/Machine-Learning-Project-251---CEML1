@@ -7,6 +7,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+nltk.download('stopwords')
+nltk.download('punkt')
+
+STOPWORDS = set(stopwords.words('english'))   # Khởi tạo stopwords
 
 # ================================
 # 1. Hàm tiền xử lý
