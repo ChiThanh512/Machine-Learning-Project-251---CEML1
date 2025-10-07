@@ -7,6 +7,8 @@ và lưu ra file .npy để tái sử dụng sau.
 
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from scipy import sparse
+import os
 
 
 def extract_features(X_train, X_test, CONFIG):
@@ -60,22 +62,55 @@ def extract_features(X_train, X_test, CONFIG):
     return X_train_vec, X_test_vec
 
 
+
+
 def save_features(X_train_vec, X_test_vec, prefix="X"):
     """
-    Lưu đặc trưng dưới dạng file .npy
+    💾 Lưu đặc trưng xuống file (.npz cho sparse, .npy cho dense)
     """
     print("💾 Đang lưu đặc trưng ...")
-    np.save(f"{prefix}_train_vec.npy", X_train_vec)
-    np.save(f"{prefix}_test_vec.npy", X_test_vec)
-    print("✅ Đã lưu thành công:", f"{prefix}_train_vec.npy", "và", f"{prefix}_test_vec.npy")
+
+    # Tạo thư mục lưu
+    os.makedirs("features", exist_ok=True)
+
+    # Tạo đường dẫn file
+    train_path = os.path.join("features", f"{prefix}_train_vec")
+    test_path = os.path.join("features", f"{prefix}_test_vec")
+
+    # Kiểm tra dạng dữ liệu
+    if sparse.issparse(X_train_vec):
+        sparse.save_npz(train_path + ".npz", X_train_vec)
+        sparse.save_npz(test_path + ".npz", X_test_vec)
+        print(f"✅ Đã lưu sparse matrix: {train_path}.npz, {test_path}.npz")
+    else:
+        np.save(train_path + ".npy", X_train_vec)
+        np.save(test_path + ".npy", X_test_vec)
+        print(f"✅ Đã lưu dense array: {train_path}.npy, {test_path}.npy")
+
+    print(f"🎯 Shapes khi lưu: {X_train_vec.shape}, {X_test_vec.shape}")
 
 
 def load_features(prefix="X"):
     """
-    Load đặc trưng từ file .npy
+    📂 Load đặc trưng đã lưu (.npz hoặc .npy)
     """
     print("📂 Đang load lại đặc trưng ...")
-    X_train_load = np.load(f"{prefix}_train_vec.npy", allow_pickle=True)
-    X_test_load = np.load(f"{prefix}_test_vec.npy", allow_pickle=True)
-    print("✅ Load xong. Shapes:", X_train_load.shape, X_test_load.shape)
+
+    npz_train = os.path.join("features", f"{prefix}_train_vec.npz")
+    npz_test = os.path.join("features", f"{prefix}_test_vec.npz")
+    npy_train = os.path.join("features", f"{prefix}_train_vec.npy")
+    npy_test = os.path.join("features", f"{prefix}_test_vec.npy")
+
+    if os.path.exists(npz_train):
+        X_train_load = sparse.load_npz(npz_train)
+        X_test_load = sparse.load_npz(npz_test)
+        print(f"✅ Đã load dạng sparse (.npz): {prefix}")
+    elif os.path.exists(npy_train):
+        X_train_load = np.load(npy_train, allow_pickle=True)
+        X_test_load = np.load(npy_test, allow_pickle=True)
+        print(f"✅ Đã load dạng dense (.npy): {prefix}")
+    else:
+        raise FileNotFoundError("❌ Không tìm thấy file đặc trưng cần load.")
+
+    print("🎯 Shapes sau khi load:", X_train_load.shape, X_test_load.shape)
     return X_train_load, X_test_load
