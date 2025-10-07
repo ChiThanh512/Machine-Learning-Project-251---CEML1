@@ -182,10 +182,14 @@ def preprocess_texts(df, STOPWORDS, CONFIG, bert_tokenizer=None):
 
     # Bỏ các cột không cần thiết (nếu có)
     df = df.drop(["title", "subject", "date", "text_len"], axis=1, errors="ignore")
+    print("Văn bản trước khi được xử lý")
+    print(df["text"].iloc[0][:1000])
 
-    # Áp dụng clean_text cho toàn bộ text
-    df["text"] = df["text"].apply(lambda x: clean_text(x, STOPWORDS, CONFIG, bert_tokenizer))
+    df["text"] = df["text"].apply(lambda x: clean_text(x, STOPWORDS, CONFIG, bert_tokenizer)) 
 
+    print("\nVăn bản sau khi được xử lý")
+    print(df["text"].iloc[0][:1000])
+    
     print("✅ Hoàn tất tiền xử lý.")
     return df
 
