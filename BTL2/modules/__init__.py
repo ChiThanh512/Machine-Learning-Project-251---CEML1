@@ -9,3 +9,9 @@ from .model_eval import (
 from .data_loader import(
     load_fake_news_dataset
 )
+from .EDA import(
+    run_eda,
+    clean_text,
+    preprocess_texts,
+    split_dataset
+)

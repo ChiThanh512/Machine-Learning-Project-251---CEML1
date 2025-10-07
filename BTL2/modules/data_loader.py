@@ -28,7 +28,7 @@ def load_fake_news_dataset(repo_url="https://github.com/NhutTomorrow/Fake-News-d
     fake_df = pd.read_csv("Fake-News-dataset/Fake_csv/Fake.csv")
     true_df = pd.read_csv("Fake-News-dataset/True_csv/True.csv")
 
-    print("✅ True dataset:", true_df.shape)
+    print("✅ True dataset:", true_df.shape)  
     print("✅ Fake dataset:", fake_df.shape)
 
     # --- Thêm nhãn ---
