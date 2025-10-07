@@ -6,3 +6,6 @@ from .model_eval import (
     make_clf,
     run_grid_search
 )
+from .data_loader import(
+    load_fake_news_dataset
+)
