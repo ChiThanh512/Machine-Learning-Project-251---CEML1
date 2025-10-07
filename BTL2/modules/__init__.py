@@ -15,3 +15,8 @@ from .EDA import(
     preprocess_texts,
     split_dataset
 )
+from .feature_extraction import(
+    extract_features,
+    save_features,
+    load_features
+)

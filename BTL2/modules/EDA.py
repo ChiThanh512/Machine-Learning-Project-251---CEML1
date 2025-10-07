@@ -210,3 +210,4 @@ def split_dataset(df, test_size=0.2, random_state=42):
     print(f"✅ Kích thước X_train: {X_train.shape}")
     print(f"✅ Kích thước X_test: {X_test.shape}")
     return X_train, X_test, y_train, y_test
+
