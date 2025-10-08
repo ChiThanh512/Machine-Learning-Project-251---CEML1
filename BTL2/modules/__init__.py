@@ -20,3 +20,7 @@ from .feature_extraction import(
     save_features,
     load_features
 )
+
+from .model_training import(
+    train_model
+)
