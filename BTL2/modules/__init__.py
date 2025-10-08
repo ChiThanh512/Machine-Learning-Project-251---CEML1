@@ -4,7 +4,9 @@ from .model_eval import (
     preprocess_texts,
     get_embeddings,
     make_clf,
-    run_grid_search
+    run_grid_search,
+    split_data,
+    evaluate_model
 )
 from .data_loader import(
     load_fake_news_dataset

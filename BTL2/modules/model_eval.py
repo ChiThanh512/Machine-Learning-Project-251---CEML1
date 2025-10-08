@@ -203,3 +203,29 @@ def print_model_info(CONFIG):
     for key, val in CONFIG["preprocessing"].items():
         print(f"{key}: {val}")
     print("======================\n")
+
+def evaluate_model(y_test, y_pred):
+    """In kết quả đánh giá cơ bản của mô hình"""
+    print("📊 Kết quả đánh giá mô hình:")
+    print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+    print("\nClassification Report:")
+    print(classification_report(y_test, y_pred))
+    print("-" * 40)
+
+
+def split_data(df, test_size=0.3, val_size=0.5, random_state=42):
+    """Chia dữ liệu thành train / val / test"""
+    print("🔀 Đang chia tập dữ liệu ...")
+
+    df_prepared = df.copy()
+    X = df_prepared['text']
+    y = df_prepared['label']
+
+    # Chia train/test
+    X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=test_size, random_state=random_state)
+    # Chia tiếp test/val
+    X_test, X_val, y_test, y_val = train_test_split(X_temp, y_temp, test_size=val_size, random_state=random_state)
+
+    print(f"✅ Train: {X_train.shape}, Validation: {X_val.shape}, Test: {X_test.shape}")
+    print("-" * 40)
+    return X_train, X_val, X_test, y_train, y_val, y_test
