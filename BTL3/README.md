@@ -1,6 +1,16 @@
-# Cách chạy phần BTL3
-## Để mở được trang colab chạy đoạn code này bạn chỉ cần truy cập đường link:
-https://colab.research.google.com/github/ChiThanh512/Machine-Learning-Project-251---CEML1/blob/main/BTL3/notebooks/main.ipynb
-### lưu ý là cần đăng nhập vào git trong colab để có thể git clone repo của nhóm.
-## Sau khi truy cập được link thì chỉ cần vào connect sau đó truy cập change runtime type và chọn T4 GPU.
-## Sau khi đã set up xong runtime type thì chọn Run all để chạy toàn bộ đoạn code.
+## Cách chạy phần **BTL3**
+
+### Mở notebook trên Google Colab
+Bạn có thể trực tiếp mở và chạy notebook của nhóm tại đường dẫn sau:
+
+[**Mở trên Google Colab**](https://colab.research.google.com/github/ChiThanh512/Machine-Learning-Project-251---CEML1/blob/main/BTL3/notebooks/main.ipynb)
+
+> **Lưu ý:** Nếu Colab yêu cầu quyền truy cập, hãy đăng nhập GitHub để cho phép `git clone` repository.
+
+---
+
+### ⚙️ Thiết lập môi trường chạy
+1. Nhấn **Connect** (góc phải trên cùng của Colab).  
+2. Vào **Runtime → Change runtime type**, chọn **GPU (T4)** trong mục *Hardware accelerator*.  
+3. Sau khi thiết lập xong, chọn **Runtime → Run all** để chạy toàn bộ notebook.
+
