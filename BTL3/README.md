@@ -9,7 +9,7 @@ Bạn có thể trực tiếp mở và chạy notebook của nhóm tại đườ
 
 ---
 
-### ⚙️ Thiết lập môi trường chạy
+### Thiết lập môi trường chạy
 1. Nhấn **Connect** (góc phải trên cùng của Colab).  
 2. Vào **Runtime → Change runtime type**, chọn **GPU (T4)** trong mục Hardware accelerator.  
 3. Sau khi thiết lập xong, chọn **Runtime → Run all** để chạy toàn bộ notebook.
