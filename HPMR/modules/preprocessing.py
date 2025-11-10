@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 SR = 22050 #tần số lấy mẫu
 N_FFT = 512 #int(0.025*SR) # khoảng lấy mẫu fft 25ms
 N_HOP = 256 #int(0.010*SR) # bước nhảy giữa 2 frame
-N_MFCC = 13
+N_MFCC = 40
 N_MELS =40
 pre_emphasis = 0.95
 def extract_features(file_path):
@@ -41,7 +41,6 @@ def extract_features(file_path):
         )
         delta = librosa.feature.delta(mfcc)
         delta2 = librosa.feature.delta(mfcc, order=2)
-        print("debug")
         mfccs_features = np.vstack([mfcc, delta, delta2]).T
         return mfccs_features
     except Exception as e:
