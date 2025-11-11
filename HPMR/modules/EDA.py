@@ -93,6 +93,7 @@ def get_random_audio(df, digit=0):
     # Tải và hiển thị sóng âm
     try:
         data, sr = librosa.load(path, sr=SR)
+        data, index = librosa.effects.trim(data, top_db=40)
         plt.figure(figsize=(10, 3))
         dsp.waveshow(data, sr=sr)
         plt.title(f"Audio of digit: {actual_digit}")
@@ -132,7 +133,8 @@ def get_random_audio_raw(df, digit=0):
     actual_digit = random_sample['digit']
     
     try:
-        data, sr = librosa.load(path, sr=SR)        
+        data, sr = librosa.load(path, sr=SR)  
+        data, index = librosa.effects.trim(data, top_db=40)      
         return data, sr
     except Exception as e:
         print(f"Lỗi khi tải hoặc hiển thị file {path}: {e}")

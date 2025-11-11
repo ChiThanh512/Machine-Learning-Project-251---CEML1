@@ -25,6 +25,7 @@ def extract_features(file_path):
     try:
         
         audio, sample_rate = librosa.load(file_path, sr=SR)
+        audio, index = librosa.effects.trim(audio, top_db=40)
         y = np.append(audio[0], audio[1:] - pre_emphasis * audio[:-1])
         mfcc = librosa.feature.mfcc(
         y=y,
