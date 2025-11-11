@@ -133,7 +133,7 @@ def get_random_audio_raw(df, digit=0):
     
     try:
         data, sr = librosa.load(path, sr=SR)        
-        return Audio(data=data, rate=sr)
+        return data, sr
     except Exception as e:
         print(f"Lỗi khi tải hoặc hiển thị file {path}: {e}")
         return None
