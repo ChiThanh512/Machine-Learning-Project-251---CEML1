@@ -357,10 +357,10 @@ class continueHMM(BaseHMM):
                 if T > 1:
                     # log_xi: (N, N, T-1)
                     # tmp[i,j,t] = log_alpha[i,t] + logA[i,j] + log_b[j,t+1] + logBeta[j,t+1]
-                    tmp = (log_alpha[:, :-1, None]      # (N, T-1, 1)
-                           + self.logA[:, :, None]       # (N, N, 1)
-                           + log_b_all[None, :, 1:]      # (1, N, T-1)
-                           + logBeta[None, :, 1:])       # (1, N, T-1)
+                    tmp = (log_alpha[:, :-1].reshape(self.N, 1, T-1)      # (N, 1, T-1)
+                           + self.logA[:, :, None]                         # (N, N, 1)
+                           + log_b_all[None, :, 1:]                        # (1, N, T-1)
+                           + logBeta[None, :, 1:])                         # (1, N, T-1)
                     log_xi = tmp - log_prob
                     xi = np.exp(log_xi)  # (N, N, T-1)
                     
