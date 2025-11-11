@@ -93,7 +93,7 @@ def get_random_audio(df, digit=0):
     # Tải và hiển thị sóng âm
     try:
         data, sr = librosa.load(path, sr=SR)
-        data, index = librosa.effects.trim(data, top_db=40)
+        data, index = librosa.effects.trim(data, top_db=30)
         plt.figure(figsize=(10, 3))
         dsp.waveshow(data, sr=sr)
         plt.title(f"Audio of digit: {actual_digit}")
@@ -134,7 +134,7 @@ def get_random_audio_raw(df, digit=0):
     
     try:
         data, sr = librosa.load(path, sr=SR)  
-        data, index = librosa.effects.trim(data, top_db=40)      
+        data, index = librosa.effects.trim(data, top_db=30)      
         return data, sr
     except Exception as e:
         print(f"Lỗi khi tải hoặc hiển thị file {path}: {e}")
@@ -222,3 +222,30 @@ def get_audio_mfcc(df = None):
     
     plt.tight_layout(pad=3)   
     plt.show()
+
+
+
+
+
+def read_dataset_and_save_feture(root_folder_path, save_path):
+    features_list = []
+    labels_list = []
+    
+    if not os.path.exists(root_folder_path):
+        print(f"Lỗi: Không tìm thấy thư mục '{root_folder_path}'")
+        return
+
+    for label in tqdm(os.listdir(root_folder_path), desc="Processing Labels"):
+        folder_path = os.path.join(root_folder_path, label)
+        if not os.path.isdir(folder_path):
+            continue
+            
+        for file_name in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, file_name)
+            features = extract_features(file_path)
+            if features is not None:
+                features_list.append(features)
+                labels_list.append(label)
+    # Lưu dưới dạng object array để chứa các chuỗi có độ dài khác nhau
+    np.savez_compressed(save_path, features=np.array(features_list, dtype=object), labels=np.array(labels_list))
+    print(f"\nTrích xuất hoàn tất! Đã lưu {len(features_list)} chuỗi đặc trưng.")
