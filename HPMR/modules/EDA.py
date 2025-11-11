@@ -14,6 +14,7 @@ N_FFT = 512 #int(0.025*SR) # khoảng lấy mẫu fft 25ms
 N_HOP = 256 #int(0.010*SR) # bước nhảy giữa 2 frame
 N_MFCC = 13
 N_MELS =40
+TOP_DB = 40
 pre_emphasis = 0.95
 
 def create_dataframe_from_folders(data_path):
@@ -93,7 +94,7 @@ def get_random_audio(df, digit=0):
     # Tải và hiển thị sóng âm
     try:
         data, sr = librosa.load(path, sr=SR)
-        data, index = librosa.effects.trim(data, top_db=30)
+        data, index = librosa.effects.trim(data, top_db=TOP_DB)
         plt.figure(figsize=(10, 3))
         dsp.waveshow(data, sr=sr)
         plt.title(f"Audio of digit: {actual_digit}")
@@ -134,7 +135,7 @@ def get_random_audio_raw(df, digit=0):
     
     try:
         data, sr = librosa.load(path, sr=SR)  
-        data, index = librosa.effects.trim(data, top_db=30)      
+        data, index = librosa.effects.trim(data, top_db=TOP_DB)      
         return data, sr
     except Exception as e:
         print(f"Lỗi khi tải hoặc hiển thị file {path}: {e}")
@@ -227,9 +228,8 @@ def get_audio_mfcc(df = None):
 
 
 
-def read_dataset_and_save_feture(root_folder_path, save_path):
-    features_list = []
-    labels_list = []
+def get_dataset(root_folder_path):
+    data_set = []
     
     if not os.path.exists(root_folder_path):
         print(f"Lỗi: Không tìm thấy thư mục '{root_folder_path}'")
@@ -242,10 +242,11 @@ def read_dataset_and_save_feture(root_folder_path, save_path):
             
         for file_name in os.listdir(folder_path):
             file_path = os.path.join(folder_path, file_name)
-            features = extract_features(file_path)
-            if features is not None:
-                features_list.append(features)
-                labels_list.append(label)
+            audio,sr = librosa.load(file_path, sr=SR)
+            duration = librosa.get_duration(y=audio, sr=sr)
+            if audio is not None:
+                data_set.append([audio, label,duration])
     # Lưu dưới dạng object array để chứa các chuỗi có độ dài khác nhau
-    np.savez_compressed(save_path, features=np.array(features_list, dtype=object), labels=np.array(labels_list))
-    print(f"\nTrích xuất hoàn tất! Đã lưu {len(features_list)} chuỗi đặc trưng.")
+    
+    print(f"\nĐã đọc xong dữ liệu!")
+    return pd.DataFrame(data_set,columns=['audio','class','duration'])

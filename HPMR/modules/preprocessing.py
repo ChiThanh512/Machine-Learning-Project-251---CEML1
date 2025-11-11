@@ -20,12 +20,13 @@ N_FFT = 512 #int(0.025*SR) # khoảng lấy mẫu fft 25ms
 N_HOP = 256 #int(0.010*SR) # bước nhảy giữa 2 frame
 N_MFCC = 13
 N_MELS =40
+TOP_DB = 40
 pre_emphasis = 0.95
 def extract_features(file_path):
     try:
         
         audio, sample_rate = librosa.load(file_path, sr=SR)
-        audio, index = librosa.effects.trim(audio, top_db=30)
+        audio, index = librosa.effects.trim(audio, top_db=TOP_DB)
         y = np.append(audio[0], audio[1:] - pre_emphasis * audio[:-1])
         mfcc = librosa.feature.mfcc(
         y=y,
