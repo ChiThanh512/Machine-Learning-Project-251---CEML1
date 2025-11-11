@@ -15,9 +15,9 @@ from sklearn.model_selection import train_test_split
 #         return None
 
 ## Định nghĩa các tham số cơ bản
-SR = 40960 #tần số lấy mẫu
-N_FFT = 1024 #int(0.025*SR) # khoảng lấy mẫu fft 25ms
-N_HOP = 512 #int(0.010*SR) # bước nhảy giữa 2 frame
+SR = 22050 #tần số lấy mẫu
+N_FFT = 512 #int(0.025*SR) # khoảng lấy mẫu fft 25ms
+N_HOP = 256 #int(0.010*SR) # bước nhảy giữa 2 frame
 N_MFCC = 13
 N_MELS =40
 pre_emphasis = 0.95

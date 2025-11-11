@@ -116,7 +116,7 @@ def train_and_evaluate_hmm(X_train, X_test, y_train, y_test, class_names):
         # Khởi tạo mô hình GaussianHMM
         # n_components: số trạng thái ẩn (hyperparameter cần tinh chỉnh)
         # covariance_type: "diag" là lựa chọn phổ biến cho MFCC
-        model = hmm.GaussianHMM(n_components=5, covariance_type="diag", n_iter=100)
+        model = hmm.GaussianHMM(n_components=8, covariance_type="diag", n_iter=100)
         
         # Huấn luyện mô hình với dữ liệu nối và mảng lengths
         model.fit(X_class_concatenated, lengths=lengths)
