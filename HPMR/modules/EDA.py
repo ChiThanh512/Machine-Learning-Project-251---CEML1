@@ -137,3 +137,86 @@ def get_random_audio_raw(df, digit=0):
     except Exception as e:
         print(f"Lỗi khi tải hoặc hiển thị file {path}: {e}")
         return None
+def get_audio_spectogram(df = None):
+    # Creating subplots
+    fig,ax = plt.subplots(5,2,figsize=(15,30))
+
+    # Initializing row and column variables for subplots
+    row = 0
+    column = 0
+
+    for digit in range(10):  
+        # Read the audio file
+        data,sr = get_random_audio_raw(df,digit)
+        # Apply Short-Time-Fourier-Transformer to transform data
+        D = librosa.stft(data, n_fft = N_FFT, hop_length = N_HOP)
+        # Converting frequency to decible
+        S_db = librosa.amplitude_to_db(np.abs(D),ref=np.max)
+        # Plot the transformed data
+        ax[row,column].set_title(f"Spectogram of digit {digit}")
+        librosa.display.specshow(S_db,x_axis='time',y_axis='log',ax=ax[row,column])
+    
+        # Conditions for positioning of the plots
+        if column == 1:
+            column = 0
+            row += 1
+        else:
+            column+=1
+        
+    
+    plt.tight_layout(pad=3)   
+    plt.show()
+
+
+
+def extract_features_mfcc(audio, sample_rate):
+        y = np.append(audio[0], audio[1:] - pre_emphasis * audio[:-1])
+        mfcc = librosa.feature.mfcc(
+        y=y,
+        sr=sample_rate,
+        n_mfcc=N_MFCC,          # số hệ số cepstral đầu ra
+        n_fft=N_FFT,          # kích thước FFT
+        hop_length=N_HOP,     # khoảng nhảy giữa các frame
+        n_mels=N_MELS,          # số filter Mel
+        fmin=300,           # tần số thấp nhất
+        fmax=8000,          # tần số cao nhất
+        dct_type=2,         # kiểu biến đổi DCT
+        norm='ortho',       # chuẩn hóa DCT
+        lifter=22           # hệ số nâng cao cepstral
+        )
+        return mfcc
+
+def get_audio_mfcc(df = None):
+    # Creating subplots
+    fig,ax = plt.subplots(5,2,figsize=(15,30))
+
+    # Initializing row and column variables for subplots
+    row = 0
+    column = 0
+
+    for digit in range(10):  
+        # Get Audio of different class(0-9)
+        audio_data,sample_rate = get_random_audio_raw(df, digit)
+    
+        # Extract Its MFCC
+        mfcc = extract_features_mfcc(audio_data,sample_rate)
+        print(f"Shape of MFCC of audio digit {digit} ---> ",mfcc.shape)
+    
+        # Display the plots and its title
+        ax[row,column].set_title(f"MFCC of audio class {digit} across time")
+        librosa.display.specshow(mfcc,sr=sample_rate,ax=ax[row,column])
+    
+        # Set X-labels and y-labels
+        ax[row,column].set_xlabel("Time")
+        ax[row,column].set_ylabel("MFCC Coefficients")
+    
+        # Conditions for positioning of the plots
+        if column == 1:
+            column = 0
+            row += 1
+        else:
+            column+=1
+        
+    
+    plt.tight_layout(pad=3)   
+    plt.show()
