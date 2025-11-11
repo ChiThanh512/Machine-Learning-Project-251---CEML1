@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, f1_score, classification_report
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
@@ -69,9 +69,33 @@ def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_name
         scores = [m.forward(seq)[0] for m in models]  # log_prob từ forward
         y_pred.append(int(np.argmax(scores)))
 
+    # Tính các metrics
     acc = accuracy_score(y_test, y_pred)
-    print(f"Accuracy: {acc:.4f}")
+    precision_macro = precision_score(y_test, y_pred, average='macro', zero_division=0)
+    precision_weighted = precision_score(y_test, y_pred, average='weighted', zero_division=0)
+    recall_macro = recall_score(y_test, y_pred, average='macro', zero_division=0)
+    recall_weighted = recall_score(y_test, y_pred, average='weighted', zero_division=0)
+    f1_macro = f1_score(y_test, y_pred, average='macro', zero_division=0)
+    f1_weighted = f1_score(y_test, y_pred, average='weighted', zero_division=0)
 
+    # In kết quả tổng quát
+    print(f"\n{'='*60}")
+    print(f"{'TỔNG KẾT KẾT QUẢ':^60}")
+    print(f"{'='*60}")
+    print(f"Accuracy:           {acc:.4f}")
+    print(f"\nPrecision (Macro):  {precision_macro:.4f}")
+    print(f"Precision (Weight): {precision_weighted:.4f}")
+    print(f"\nRecall (Macro):     {recall_macro:.4f}")
+    print(f"Recall (Weight):    {recall_weighted:.4f}")
+    print(f"\nF1-Score (Macro):   {f1_macro:.4f}")
+    print(f"F1-Score (Weight):  {f1_weighted:.4f}")
+    print(f"{'='*60}\n")
+
+    # In báo cáo chi tiết theo từng lớp
+    print("\n--- Báo cáo phân loại chi tiết ---")
+    print(classification_report(y_test, y_pred, target_names=class_names, zero_division=0))
+
+    # Vẽ confusion matrix
     cm = confusion_matrix(y_test, y_pred)
     plt.figure(figsize=(10, 8))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
@@ -79,8 +103,22 @@ def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_name
     plt.title('Confusion Matrix (continueHMM)')
     plt.xlabel('Predicted')
     plt.ylabel('True')
+    plt.tight_layout()
     plt.show()
-    return models, y_pred, acc
+
+    # Tạo dictionary chứa tất cả metrics để trả về
+    metrics = {
+        'accuracy': acc,
+        'precision_macro': precision_macro,
+        'precision_weighted': precision_weighted,
+        'recall_macro': recall_macro,
+        'recall_weighted': recall_weighted,
+        'f1_macro': f1_macro,
+        'f1_weighted': f1_weighted,
+        'confusion_matrix': cm
+    }
+    
+    return models, y_pred, metrics
 
 
 

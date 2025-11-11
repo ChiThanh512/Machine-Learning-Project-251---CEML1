@@ -250,106 +250,158 @@ class continueHMM(BaseHMM):
         
         self.logpi = np.log(self.pi + 1e-10)
         self.logA = np.log(self.A + 1e-10)
-        self._update_emission_models()
+        self._precompute_emission_params()
     
-    def _update_emission_models(self):
-        self.B = []
+    def _precompute_emission_params(self):
+        """Tiền tính precision matrix và log normalizing constant cho tốc độ."""
+        self._precisions = np.zeros_like(self.covariances)
+        self._log_norm_consts = np.zeros(self.N)
+        eye = np.eye(self.D)
+        
         for i in range(self.N):
-            model = multivariate_normal(
-                mean=self.means[i], 
-                cov=self.covariances[i],
-                allow_singular=True
-            )
-            self.B.append(model)
+            # Ổn định covariance
+            cov = self.covariances[i] + 1e-6 * eye
+            # Đảm bảo đối xứng
+            cov = 0.5 * (cov + cov.T)
+            
+            # Dùng Cholesky để tính logdet và precision hiệu quả
+            try:
+                L = np.linalg.cholesky(cov)
+                logdet = 2.0 * np.sum(np.log(np.diag(L)))
+                self._log_norm_consts[i] = -0.5 * (self.D * np.log(2.0 * np.pi) + logdet)
+                
+                # precision = inv(cov) = inv(L^T) @ inv(L)
+                Linv = np.linalg.inv(L)
+                self._precisions[i] = Linv.T @ Linv
+            except np.linalg.LinAlgError:
+                # Fallback nếu không PD
+                self._precisions[i] = np.linalg.pinv(cov)
+                sign, logdet = np.linalg.slogdet(cov)
+                self._log_norm_consts[i] = -0.5 * (self.D * np.log(2.0 * np.pi) + logdet)
 
     def log_B(self, O_t) -> np.ndarray:
-        log_b = np.zeros(self.N)
-        for i in range(self.N):
-            model = self.B[i] 
-            log_b[i] = model.logpdf(O_t)
-        return log_b
+        """Tính log b_i(O_t) cho tất cả state i. Tối ưu bằng vector operations."""
+        # O_t: (D,) -> diff: (N, D)
+        diff = O_t[None, :] - self.means
+        # Mahalanobis distance: quad[i] = diff[i]^T @ precision[i] @ diff[i]
+        quad = np.einsum('nd,ndk,nk->n', diff, self._precisions, diff)
+        return self._log_norm_consts - 0.5 * quad
 
-    def fit(self, data, n_loop=50, bound_learning = 1e-4):
+    def log_B_sequence(self, O: np.ndarray) -> np.ndarray:
+        """Tính log b_i(O_t) cho toàn bộ chuỗi. Trả về (N, T)."""
+        T = O.shape[0]
+        # diff: (N, T, D) = O[None,:,:] - means[:,None,:]
+        diff = O[None, :, :] - self.means[:, None, :]
+        # quad: (N, T)
+        quad = np.einsum('ntd,ndk,ntk->nt', diff, self._precisions, diff)
+        return self._log_norm_consts[:, None] - 0.5 * quad
+
+    def forward(self, O):
+        """Tối ưu: tính log_B cho toàn bộ chuỗi một lần."""
+        T = O.shape[0]
+        log_b_all = self.log_B_sequence(O)  # (N, T)
+        
+        log_alpha = np.full((self.N, T), -np.inf)
+        log_alpha[:, 0] = self.logpi + log_b_all[:, 0]
+        
+        for t in range(1, T):
+            tmp = log_alpha[:, t-1][:, None] + self.logA
+            log_alpha[:, t] = logsumexp(tmp, axis=0) + log_b_all[:, t]
+        
+        log_prob = logsumexp(log_alpha[:, -1])
+        return log_prob, log_alpha, log_b_all  # Trả về thêm log_b_all để tái sử dụng
+    
+    def backward(self, O, log_b_all=None):
+        """Tối ưu: nhận log_b_all từ forward để tránh tính lại."""
+        T = O.shape[0]
+        if log_b_all is None:
+            log_b_all = self.log_B_sequence(O)
+        
+        logBeta = np.full((self.N, T), -np.inf)
+        logBeta[:, T-1] = 0.0
+        
+        for t in range(T-2, -1, -1):
+            tmp = self.logA + log_b_all[:, t+1][None, :] + logBeta[:, t+1][None, :]
+            logBeta[:, t] = logsumexp(tmp, axis=1)
+        
+        return logBeta
+
+    def fit(self, data, n_loop=50, bound_learning=1e-4):
         last_log_likelihood = -np.inf
+        
         for i_loop in range(n_loop):
-            # --- Khởi tạo bộ đếm (Accumulators) ---
-            # 1. Cho pi
+            # Accumulators
             pi_numerator = np.zeros(self.N)
-            # 2. Cho A (ma trận chuyển tiếp)
             A_numerator = np.zeros((self.N, self.N))
-            A_denominator = np.zeros((self.N, 1)) # Tổng gamma (trừ T)
-            # 3. Cho B (means & covariances)
-            # S(0) = Tổng gamma
-            gamma_sum = np.zeros((self.N, 1)) 
-            # S(1) = Tổng (gamma * O_t)
+            A_denominator = np.zeros((self.N, 1))
+            gamma_sum = np.zeros((self.N, 1))
             means_numerator = np.zeros((self.N, self.D))
-            # S(2) = Tổng (gamma * O_t * O_t^T)
             cov_numerator = np.zeros((self.N, self.D, self.D))
             total_log_likelihood = 0
-            # --- E-Step: (Tính toán kỳ vọng) ---
+
             for O in data:
-                # O là một chuỗi (T, D)
-                T = O.shape[0] 
+                T = O.shape[0]
                 if T == 0:
                     continue
-                # 1. Tính alpha, beta
-                log_prob, log_alpha = self.forward(O)
-                logBeta = self.backward(O)
+                
+                # 1. Forward & backward (tái sử dụng log_b_all)
+                log_prob, log_alpha, log_b_all = self.forward(O)
+                logBeta = self.backward(O, log_b_all)
                 total_log_likelihood += log_prob
-                # 2. Tính gamma
-                log_gamma = log_alpha + logBeta - log_prob
-                gamma = np.exp(log_gamma) # (N, T)
-                # 3. Tính xi
-                log_xi = np.zeros((self.N, self.N, T - 1))
-                for t in range(T - 1):
-                    # O[t+1] là một vector (D,)
-                    log_b_next = self.log_B(O[t+1]) # (N,)
-                    
-                    tmp = log_alpha[:, t][:, None] + self.logA + log_b_next[None, :] + logBeta[:, t+1][None, :]
-                    log_xi[:, :, t] = tmp - log_prob
-                xi = np.exp(log_xi) # (N, N, T-1)
-                # --- Tích lũy (Accumulate) các thống kê ---
-                # Cho pi
-                pi_numerator += gamma[:, 0]
-                # Cho A
-                A_numerator += np.sum(xi, axis=2)
-                A_denominator += np.sum(gamma[:, :-1], axis=1, keepdims=True)
-                # Cho means và covariances
-                gamma_sum += np.sum(gamma, axis=1, keepdims=True) # S(0)
-                # S(1) = gamma @ O
-                means_numerator += gamma @ O # (N, T) @ (T, D) -> (N, D)
-                # S(2) = Tổng_t [ gamma_t(i) * (O_t @ O_t.T) ]
-                for t in range(T):
-                    O_t_vec = O[t].reshape(self.D, 1)
-                    outer_prod = O_t_vec @ O_t_vec.T # (D, D)
-                    gamma_t = gamma[:, t].reshape(self.N, 1, 1) # (N, 1, 1)
-                    cov_numerator += gamma_t * outer_prod # (N, D, D)
 
-            # --- M-Step: (Cập nhật tham số) ---
-            # 1. Cập nhật pi
+                # 2. Gamma
+                log_gamma = log_alpha + logBeta - log_prob
+                gamma = np.exp(log_gamma)  # (N, T)
+
+                # 3. Xi - tối ưu vector hóa
+                if T > 1:
+                    # log_xi: (N, N, T-1)
+                    # tmp[i,j,t] = log_alpha[i,t] + logA[i,j] + log_b[j,t+1] + logBeta[j,t+1]
+                    tmp = (log_alpha[:, :-1, None]      # (N, T-1, 1)
+                           + self.logA[:, :, None]       # (N, N, 1)
+                           + log_b_all[None, :, 1:]      # (1, N, T-1)
+                           + logBeta[None, :, 1:])       # (1, N, T-1)
+                    log_xi = tmp - log_prob
+                    xi = np.exp(log_xi)  # (N, N, T-1)
+                    
+                    A_numerator += xi.sum(axis=2)
+                    A_denominator += gamma[:, :-1].sum(axis=1, keepdims=True)
+
+                # 4. Accumulate
+                pi_numerator += gamma[:, 0]
+                gamma_sum += gamma.sum(axis=1, keepdims=True)
+                means_numerator += gamma @ O  # (N,T) @ (T,D)
+
+                # Covariance - tối ưu bằng einsum
+                # cov_numerator[i] += sum_t gamma[i,t] * (O[t] @ O[t].T)
+                # = gamma[i,:] @ (O @ O.T) nhưng phải cẩn thận chiều
+                # Cách hiệu quả: dùng einsum
+                cov_numerator += np.einsum('nt,td,tk->ndk', gamma, O, O)
+
+            # M-step
             self.pi = pi_numerator / len(data)
-            self.pi /= np.sum(self.pi) # Chuẩn hóa
-            # 2. Cập nhật A
-            self.A = np.nan_to_num(A_numerator / A_denominator)
-            row_sums_A = np.sum(self.A, axis=1, keepdims=True)
-            row_sums_A[row_sums_A == 0] = 1.0
-            self.A = self.A / row_sums_A # Chuẩn hóa
-            # 3. Cập nhật means (S(1) / S(0))
-            self.means = np.nan_to_num(means_numerator / gamma_sum)
-            # 4. Cập nhật covariances ( (S(2) / S(0)) - (mu_new @ mu_new.T) )
-            # Thêm [:, None, None] để broadcasting (N, 1) -> (N, 1, 1)
-            S2_term = np.nan_to_num(cov_numerator / gamma_sum[:, None]) 
-            # mu_new @ mu_new.T
-            # (N, D, 1) @ (N, 1, D) -> (N, D, D)
+            self.pi /= self.pi.sum()
+            
+            self.A = np.nan_to_num(A_numerator / (A_denominator + 1e-12))
+            self.A /= self.A.sum(axis=1, keepdims=True)
+            
+            self.means = np.nan_to_num(means_numerator / (gamma_sum + 1e-12))
+            
+            S2_term = np.nan_to_num(cov_numerator / (gamma_sum[:, :, None] + 1e-12))
             mean_outers = self.means[:, :, None] @ self.means[:, None, :]
             self.covariances = S2_term - mean_outers
-            # Đảm bảo ma trận hiệp phương sai ổn định (thêm 1 giá trị nhỏ vào đường chéo)
-            self.covariances += 1e-6 * np.eye(self.D)[None, :, :] 
-            # --- Cập nhật các biến log và models ---
+            
+            # Đảm bảo đối xứng và PD
+            self.covariances = 0.5 * (self.covariances + self.covariances.transpose(0, 2, 1))
+            self.covariances += 1e-6 * np.eye(self.D)[None, :, :]
+            
+            # Update
             self.logpi = np.log(self.pi + 1e-10)
             self.logA = np.log(self.A + 1e-10)
-            self._update_emission_models()
+            self._precompute_emission_params()
+
             if abs(total_log_likelihood - last_log_likelihood) < bound_learning:
+                print(f"Converged at iteration {i_loop+1}")
                 break
             last_log_likelihood = total_log_likelihood
             
