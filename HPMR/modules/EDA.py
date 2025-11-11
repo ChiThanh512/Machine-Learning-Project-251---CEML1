@@ -7,6 +7,15 @@ import librosa.display as dsp
 import matplotlib.pyplot as plt
 from IPython.display import Audio
 
+
+## Định nghĩa các tham số cơ bản
+SR = 22050 #tần số lấy mẫu
+N_FFT = 512 #int(0.025*SR) # khoảng lấy mẫu fft 25ms
+N_HOP = 256 #int(0.010*SR) # bước nhảy giữa 2 frame
+N_MFCC = 13
+N_MELS =40
+pre_emphasis = 0.95
+
 def create_dataframe_from_folders(data_path):
     """
     Quét thư mục dữ liệu có cấu trúc {digit_name}/{file}.wav và tạo DataFrame.
@@ -83,7 +92,7 @@ def get_random_audio(df, digit=0):
     
     # Tải và hiển thị sóng âm
     try:
-        data, sr = librosa.load(path, sr=None)
+        data, sr = librosa.load(path, sr=SR)
         plt.figure(figsize=(10, 3))
         dsp.waveshow(data, sr=sr)
         plt.title(f"Audio of digit: {actual_digit}")
@@ -123,7 +132,7 @@ def get_random_audio_raw(df, digit=0):
     actual_digit = random_sample['digit']
     
     try:
-        data, sr = librosa.load(path, sr=None)        
+        data, sr = librosa.load(path, sr=SR)        
         return Audio(data=data, rate=sr)
     except Exception as e:
         print(f"Lỗi khi tải hoặc hiển thị file {path}: {e}")
