@@ -83,11 +83,11 @@ def load_and_preprocess_data(data_path):
 
     # Chuẩn hóa đặc trưng cho từng chuỗi
     scaler = StandardScaler()
-    # Nối tất cả các chuỗi lại để fit scaler một lần duy nhất
-    X_concatenated = np.vstack(X_list)
-    scaler.fit(X_concatenated)
-    # Áp dụng scaler cho từng chuỗi riêng lẻ
-    X_scaled_list = [scaler.transform(x) for x in X_list]
+    # # Nối tất cả các chuỗi lại để fit scaler một lần duy nhất
+    # X_concatenated = np.vstack(X_list)
+    # scaler.fit(X_concatenated)
+    # # Áp dụng scaler cho từng chuỗi riêng lẻ
+    # X_scaled_list = [scaler.transform(x) for x in X_list]
 
     # Mã hóa nhãn (giữ nguyên như cũ)
     label_map = {
@@ -97,7 +97,7 @@ def load_and_preprocess_data(data_path):
     class_names = sorted(label_map, key=label_map.get)
     y_encoded = np.array([label_map[label] for label in y_str])
 
-    return X_scaled_list, y_encoded, class_names
+    return X_list, y_encoded, class_names
 
 def split_train_test(X_list, y, test_size=0.2, random_state=42):
     # Cần chuyển X_list thành mảng tạm để stratify hoạt động
@@ -108,5 +108,9 @@ def split_train_test(X_list, y, test_size=0.2, random_state=42):
     X_test = [X_list[i] for i in test_indices]
     y_train = y[train_indices]
     y_test = y[test_indices]
-    
+    X_concatenated = np.vstack(X_train)
+    scaler = StandardScaler()
+    scaler.fit(X_concatenated)
+    X_train = [scaler.transform(x) for x in X_train]
+    X_test = [scaler.transform(x) for x in X_test]
     return X_train, X_test, y_train, y_test
