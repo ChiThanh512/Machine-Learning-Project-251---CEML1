@@ -91,7 +91,7 @@ def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_name
 
 
 from hmmlearn import hmm
-def train_and_evaluate_hmm(X_train, X_test, y_train, y_test, class_names):
+def train_and_evaluate_hmm(X_train, X_test, y_train, y_test, class_names, num_states=5, n_iter=100, covariance_type="diag"):
     """
     Huấn luyện 10 mô hình HMM trên dữ liệu đã được chia sẵn và đánh giá.
     
@@ -116,7 +116,7 @@ def train_and_evaluate_hmm(X_train, X_test, y_train, y_test, class_names):
         # Khởi tạo mô hình GaussianHMM
         # n_components: số trạng thái ẩn (hyperparameter cần tinh chỉnh)
         # covariance_type: "diag" là lựa chọn phổ biến cho MFCC
-        model = hmm.GaussianHMM(n_components=8, covariance_type="diag", n_iter=100)
+        model = hmm.GaussianHMM(n_components=num_states, covariance_type=covariance_type, n_iter=n_iter)
         
         # Huấn luyện mô hình với dữ liệu nối và mảng lengths
         model.fit(X_class_concatenated, lengths=lengths)
