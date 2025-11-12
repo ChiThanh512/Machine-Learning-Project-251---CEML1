@@ -353,7 +353,7 @@ class continueHMM(BaseHMM):
                 log_gamma = log_alpha + logBeta - log_prob
                 gamma = np.exp(log_gamma)  # (N, T)
 
-                # 3. Xi - tối ưu vector hóa
+                # 3. Xi 
                 if T > 1:
                     # log_xi: (N, N, T-1)
                     # tmp[i,j,t] = log_alpha[i,t] + logA[i,j] + log_b[j,t+1] + logBeta[j,t+1]

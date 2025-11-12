@@ -8,7 +8,7 @@
 \LoadClass[a4paper]{article}
 
 % Set up font
-\RequirePackage[fontsize=12pt]{scrextend}
+\RequirePackage[fontsize=13pt]{scrextend}
 \RequirePackage[utf8]{vntex}
 \RequirePackage[T5]{fontenc}
 \RequirePackage{mathptmx} % Apply Times New Roman font
