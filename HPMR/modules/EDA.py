@@ -252,4 +252,6 @@ def get_dataset(root_folder_path):
     # Lưu dưới dạng object array để chứa các chuỗi có độ dài khác nhau
     
     print(f"\nĐã đọc xong dữ liệu!")
-    return pd.DataFrame(data_set,columns=['audio','class','duration']), pd.DataFrame(data_set_trimmed,columns=['audio','class','duration'])
+    df_full = pd.DataFrame(data_set, columns=['audio', 'class', 'duration'])
+    df_trim = pd.DataFrame(data_set_trimmed, columns=['audio', 'class', 'duration'])
+    return df_full, df_trim
