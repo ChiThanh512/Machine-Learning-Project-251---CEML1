@@ -253,5 +253,7 @@ def get_dataset(root_folder_path):
     
     print(f"\nĐã đọc xong dữ liệu!")
     df_full = pd.DataFrame(data_set, columns=['audio', 'class', 'duration'])
+    df_full['class'] = [int(c) for c in df_full['class']]
     df_trim = pd.DataFrame(data_set_trimmed, columns=['audio', 'class', 'duration'])
+    df_trim['class'] = [int(c) for c in df_trim['class']]
     return df_full, df_trim
