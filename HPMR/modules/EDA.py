@@ -235,7 +235,7 @@ def get_dataset(root_folder_path):
         print(f"Lỗi: Không tìm thấy thư mục '{root_folder_path}'")
         return
 
-    for label in tqdm(os.listdir(root_folder_path), desc="Processing Labels"):
+    for label in tqdm(os.listdir(root_folder_path), desc="Đang đọc dữ liệu"):
         folder_path = os.path.join(root_folder_path, label)
         if not os.path.isdir(folder_path):
             continue
