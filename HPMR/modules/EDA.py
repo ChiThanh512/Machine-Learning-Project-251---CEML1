@@ -252,8 +252,17 @@ def get_dataset(root_folder_path):
     # Lưu dưới dạng object array để chứa các chuỗi có độ dài khác nhau
     
     print(f"\nĐã đọc xong dữ liệu!")
+    label_to_digit = {
+        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
+        'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9
+    }
+    def to_digit(x):
+        xs = str(x).lower()
+        if xs.isdigit() and int(xs) in range(10):
+            return int(xs)
+        return label_to_digit.get(xs, None)
     df_full = pd.DataFrame(data_set, columns=['audio', 'class', 'duration'])
-    df_full['class'] = [int(c) for c in df_full['class']]
+    df_full['class'] = df_full['class'].apply(to_digit).astype(int)
     df_trim = pd.DataFrame(data_set_trimmed, columns=['audio', 'class', 'duration'])
-    df_trim['class'] = [int(c) for c in df_trim['class']]
+    df_trim['class'] = df_trim['class'].apply(to_digit).astype(int)
     return df_full, df_trim
