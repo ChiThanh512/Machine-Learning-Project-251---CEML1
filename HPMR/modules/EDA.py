@@ -230,7 +230,7 @@ def get_audio_mfcc(df = None):
 
 def get_dataset(root_folder_path):
     data_set = []
-    
+    data_set_trimmed = []
     if not os.path.exists(root_folder_path):
         print(f"Lỗi: Không tìm thấy thư mục '{root_folder_path}'")
         return
@@ -244,9 +244,12 @@ def get_dataset(root_folder_path):
             file_path = os.path.join(folder_path, file_name)
             audio,sr = librosa.load(file_path, sr=SR)
             duration = librosa.get_duration(y=audio, sr=sr)
+            audio_trimmed, index = librosa.effects.trim(audio, top_db=TOP_DB)
+            duration_trimmed = librosa.get_duration(y=audio_trimmed, sr=sr)
             if audio is not None:
                 data_set.append([audio, label,duration])
+                data_set_trimmed.append([audio_trimmed, label, duration_trimmed])
     # Lưu dưới dạng object array để chứa các chuỗi có độ dài khác nhau
     
     print(f"\nĐã đọc xong dữ liệu!")
-    return pd.DataFrame(data_set,columns=['audio','class','duration'])
+    return pd.DataFrame(data_set,columns=['audio','class','duration']), pd.DataFrame(data_set_trimmed,columns=['audio','class','duration'])
