@@ -11,9 +11,15 @@ from datetime import datetime
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
+from sklearn.cluster import KMeans
+
 def _init_params(num_states, seq_list):
-    """Khởi tạo A, pi, means, covariances đơn giản cho một lớp."""
-    X = np.vstack(seq_list)              # (T_total, D)
+    """
+    Khởi tạo A, pi, means, covariances.
+    - A, pi: Khởi tạo "left-to-right".
+    - means, covariances: Khởi tạo bằng K-Means.
+    """
+    X = np.vstack(seq_list)           # (T_total, D)
     D = X.shape[1]
     T_total = X.shape[0]
 
@@ -30,26 +36,32 @@ def _init_params(num_states, seq_list):
         else:
             A[i, i] = stay
             A[i, i+1] = move
-    # chuẩn hóa
+    # chuẩn hóa (đảm bảo tổng hàng bằng 1, ngay cả khi num_states=1)
     A /= A.sum(axis=1, keepdims=True)
-
-    # Gán frame vào state theo tỷ lệ vị trí thời gian (simple segmentation)
-    cumulative_lengths = np.cumsum([len(s) for s in seq_list])
-    # chỉ số bắt đầu mỗi sequence không cần thiết ở đây; dùng vị trí tương đối
-    idx = np.arange(T_total)
-    rel = idx / (T_total + 1e-9)
-    state_ids = np.minimum((rel * num_states).astype(int), num_states-1)
-
-    means = np.zeros((num_states, D))
+    
+    print(f"    ... Đang chạy K-Means (K={num_states}) trên {T_total} frames để khởi tạo...")
+    
+    # 1. Chạy K-Means để tìm các cụm
+    # n_init=10 sẽ chạy 10 lần với các tâm ngẫu nhiên khác nhau và chọn lần tốt nhất
+    kmeans = KMeans(n_clusters=num_states, random_state=42, n_init=10).fit(X)
+    
+    # 2. Gán means
+    # Tâm của các cụm K-Means chính là means ban đầu
+    means = kmeans.cluster_centers_
+    
+    # 3. Tính covariances dựa trên các cụm
     covariances = np.zeros((num_states, D, D))
     for s in range(num_states):
-        frames = X[state_ids == s]
-        if len(frames) == 0:
-            # fallback nếu rỗng
+        # Lấy tất cả các frame thuộc về cụm (trạng thái) s
+        frames = X[kmeans.labels_ == s]
+        
+        if len(frames) < 2: # Nếu cụm quá nhỏ (hoặc rỗng)
+            # fallback: dùng mean ngẫu nhiên và ma trận hiệp phương sai chung
+            print(f"    ... Cảnh báo: Cụm {s} có < 2 frames. Dùng fallback.")
             means[s] = X[np.random.randint(0, T_total)]
             covariances[s] = np.diag(np.var(X, axis=0) + 1e-2)
         else:
-            means[s] = frames.mean(axis=0)
+            # Tính hiệp phương sai chéo (như code gốc của bạn)
             var = frames.var(axis=0) + 1e-2
             covariances[s] = np.diag(var)
 
@@ -122,7 +134,6 @@ def evaluate_hmm(models, X_test, y_test, class_names):
     print(f"{'='*60}")
     cm = confusion_matrix(y_test, y_pred)
     print("\nConfusion Matrix (raw):")
-    print(cm)
     
     # Vẽ heatmap confusion
     plt.figure(figsize=(max(6, len(class_names)*0.7), max(5, len(class_names)*0.7)))
