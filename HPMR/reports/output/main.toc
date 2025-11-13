@@ -6,3 +6,12 @@
 \contentsline {subsection}{\numberline {2.3}Giải thuật Backward}{6}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Giải thuật Viterbi}{7}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Giải thuật huấn luyện tham số Baum-Welch}{9}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Đặc trưng âm học của tiếng nói}{15}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Mô hình bộ máy phát âm:}{15}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Phân tích MFCC}{18}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Biến đổi FFT:}{18}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Biến đổi Fourier ngắn hạn (Short-Time Fourier Transform - STFT)}{18}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Mel-Frequency Cepstral Coefficients (MFCCs):}{19}{subsubsection.3.2.3}%
+\contentsline {section}{\numberline {4}Ứng dụng giải thuật}{24}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Tổng quan tập dữ liệu và nhiệm vụ của nhóm:}{24}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Thống kê mô tả tập dữ liệu:}{24}{subsection.4.2}%

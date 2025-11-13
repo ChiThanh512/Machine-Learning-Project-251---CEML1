@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.2)  12 NOV 2025 11:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.7.25)  13 NOV 2025 23:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
-(c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
+**c:/Users/taiko/HCMUT/K251/CO3117_ML/BTL/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
+(c:/Users/taiko/HCMUT/K251/CO3117_ML/BTL/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-07-20>
+L3 programming layer <2025-07-19>
 (./hcmut_report.cls
 Document Class: hcmut_report 
 (c:/texlive/2025/texmf-dist/tex/latex/base/article.cls
@@ -348,7 +348,7 @@ Package hyphsubst Info: Redefined: \l@vietnamese
 (hyphsubst)             old value: 88
 (hyphsubst)             new value: 2 on input line 227.
 ) (c:/texlive/2025/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2025/08/03 v25.12 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
+Package: babel 2025/07/13 v25.11 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
 \babel@savecnt=\count295
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input line 2045.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input line 2047.
@@ -994,7 +994,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<graphics/hcmut.png, id=35, 291.0072pt x 293.898pt>
+<graphics/hcmut.png, id=71, 291.0072pt x 293.898pt>
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
 Package pdftex.def Info: graphics/hcmut.png  used on input line 24.
@@ -1298,7 +1298,173 @@ Package pdftex.def Info: graphics/hcmut.png  used on input line 444.
 [14]
 \openout2 = `EDA_prep.aux'.
 
- (./EDA_prep.tex)
+ (./EDA_prep.tex
+<./graphics/Dac_trung_am_hoc_0.png, id=278, 252.945pt x 223.58531pt>
+File: ./graphics/Dac_trung_am_hoc_0.png Graphic file (type png)
+<use ./graphics/Dac_trung_am_hoc_0.png>
+Package pdftex.def Info: ./graphics/Dac_trung_am_hoc_0.png  used on input line 10.
+(pdftex.def)             Requested size: 241.84843pt x 213.77971pt.
+<./graphics/Dac_trung_am_hoc_1.png, id=279, 299.61937pt x 137.7647pt>
+File: ./graphics/Dac_trung_am_hoc_1.png Graphic file (type png)
+<use ./graphics/Dac_trung_am_hoc_1.png>
+Package pdftex.def Info: ./graphics/Dac_trung_am_hoc_1.png  used on input line 25.
+(pdftex.def)             Requested size: 241.84843pt x 111.20409pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--29
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 29.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[15
+
+ <./graphics/Dac_trung_am_hoc_0.png>]
+Underfull \hbox (badness 3954) in paragraph at lines 43--43
+[]\T5/ptm/m/n/13 …m s¡ng, câ n«ng
+ []
+
+
+Underfull \hbox (badness 4084) in paragraph at lines 45--45
+[]\T5/ptm/m/n/13 …m s­c g­t, nhi·u
+ []
+
+
+Underfull \hbox (badness 1466) in paragraph at lines 47--47
+[]\T5/ptm/m/n/13 Gièng /s/ nh÷ng câ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+[]\T5/ptm/m/n/13 Th¶m d£i n«ng l÷ñng th§p
+ []
+
+
+Underfull \hbox (badness 1466) in paragraph at lines 48--48
+\T5/ptm/m/n/13 hìn; giång nú s¡ng
+ []
+
+
+Underfull \hbox (badness 5939) in paragraph at lines 50--50
+[]\T5/ptm/m/n/13 …m s­c s­c, n«ng
+ []
+
+
+Underfull \hbox (badness 6510) in paragraph at lines 51--51
+[]\T5/ptm/m/n/13 …m m·m hìn, câ
+ []
+
+
+Overfull \hbox (34.85965pt too wide) in paragraph at lines 39--53
+ [][] 
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 54.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[16 <./graphics/Dac_trung_am_hoc_1.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 54.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--78
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 86.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[18]
+<./graphics/STFT_0.png, id=301, 395.22656pt x 319.1925pt>
+File: ./graphics/STFT_0.png Graphic file (type png)
+<use ./graphics/STFT_0.png>
+Package pdftex.def Info: ./graphics/STFT_0.png  used on input line 107.
+(pdftex.def)             Requested size: 290.22107pt x 234.3918pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--111
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 133.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[19]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 150.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[20 <./graphics/STFT_0.png>]
+<./graphics/MFCC_0.png, id=314, 450.9347pt x 164.86594pt>
+File: ./graphics/MFCC_0.png Graphic file (type png)
+<use ./graphics/MFCC_0.png>
+Package pdftex.def Info: ./graphics/MFCC_0.png  used on input line 193.
+(pdftex.def)             Requested size: 241.84843pt x 88.4225pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--197
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 197.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[21]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 222.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[22 <./graphics/MFCC_0.png>]
+<./graphics/MFCC_1.png, id=326, 397.485pt x 323.70938pt>
+File: ./graphics/MFCC_1.png Graphic file (type png)
+<use ./graphics/MFCC_1.png>
+Package pdftex.def Info: ./graphics/MFCC_1.png  used on input line 233.
+(pdftex.def)             Requested size: 290.22107pt x 236.36021pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 229--237
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--245
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 245.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[23 <./graphics/MFCC_1.png>])
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 444.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[24]
 \openout2 = `ML_train.aux'.
 
  (./ML_train.tex)
@@ -1307,8 +1473,7 @@ File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
 Package pdftex.def Info: graphics/hcmut.png  used on input line 447.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
-[15
-
+[25
 
 
 
@@ -1317,24 +1482,24 @@ Package pdftex.def Info: graphics/hcmut.png  used on input line 447.
 ] (output/main.aux (output/EDA_prep.aux) (output/ML_train.aux))
  ***********
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-07-20>
+L3 programming layer <2025-07-19>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: DFA864F4EAB5339ECC2C59CAC25D9487;1191.
+(rerunfilecheck)             Checksum: 889CA22C9DDB44A48B54A07527F73C90;3372.
  ) 
 Here is how much of TeX's memory you used:
- 30609 strings out of 467801
- 566845 string characters out of 5436090
- 1195661 words of memory out of 5000000
- 58587 multiletter control sequences out of 15000+600000
- 686002 words of font info for 128 fonts, out of 8000000 for 9000
+ 30706 strings out of 467816
+ 568995 string characters out of 5436431
+ 1195282 words of memory out of 5000000
+ 58639 multiletter control sequences out of 15000+600000
+ 687710 words of font info for 131 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 125i,24n,121p,564b,1463s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 125i,24n,121p,593b,1463s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmri8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vntt12.pfb>
-Output written on output/main.pdf (15 pages, 229883 bytes).
+Output written on output/main.pdf (25 pages, 1080697 bytes).
 PDF statistics:
- 322 PDF objects out of 1000 (max. 8388607)
- 276 compressed objects within 3 object streams
- 139 named destinations out of 1000 (max. 500000)
- 74 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 435 PDF objects out of 1000 (max. 8388607)
+ 368 compressed objects within 4 object streams
+ 166 named destinations out of 1000 (max. 500000)
+ 171 words of extra memory for PDF output out of 10000 (max. 10000000)
 
