@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 from .HMM import continueHMM
-
+import pickle
+import json
+import os
+from datetime import datetime
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -52,23 +55,99 @@ def _init_params(num_states, seq_list):
 
     return A, pi, means, covariances
 
-def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_names, num_states=5,
-                                    n_loop=30, tol=1e-3):
-    print("\n--- Huấn luyện 10 mô hình continueHMM ---")
-    models = []
-    for cls_id, cls_name in enumerate(class_names):
-        seq_list = [X_train[i] for i, y in enumerate(y_train) if y == cls_id]
-        A, pi, means, covs = _init_params(num_states, seq_list)
-        model = continueHMM(A=A, means=means, covariances=covs, pi=pi).fit(seq_list, n_loop=n_loop, bound_learning=tol)
-        models.append(model)
-        print(f"Done: {cls_name}")
+def train_hmm(X_train, y_train, class_names, num_states=5, n_loop=30, tol=1e-3):
+    """
+    Huấn luyện mô hình HMM
+    
+    Args:
+        X_train: Dữ liệu huấn luyện
+        y_train: Nhãn huấn luyện
+        class_names: Tên các lớp
+        num_states: Số trạng thái ẩn
+        n_loop: Số vòng lặp tối đa
+        tol: Ngưỡng hội tụ
+    
+    Returns:
+        models: Dictionary chứa các mô hình HMM đã huấn luyện
+    """
+    print(f"\n{'='*60}")
+    print(f"🚀 BẮT ĐẦU HUẤN LUYỆN MÔ HÌNH HMM")
+    print(f"{'='*60}")
+    print(f"   - Số trạng thái ẩn: {num_states}")
+    print(f"   - Số vòng lặp tối đa: {n_loop}")
+    print(f"   - Ngưỡng hội tụ: {tol}")
+    print(f"{'='*60}\n")
+    
+    models = {}
+    
+    for idx, cls in enumerate(class_names):
+        print(f"🔄 Đang huấn luyện lớp: {cls} ({idx+1}/{len(class_names)})")
+        
+        # Lấy dữ liệu của lớp hiện tại
+        X_cls = [X_train[i] for i in range(len(X_train)) if y_train[i] == idx]
+        
+        if len(X_cls) == 0:
+            print(f"⚠️  Không có dữ liệu cho lớp {cls}")
+            continue
+        
+        # Khởi tạo tham số ban đầu
+        A, pi, means, covariances = _init_params(num_states, X_cls)
+        
+        # Khởi tạo mô hình continueHMM của bạn
+        model = continueHMM(
+            A=A,
+            pi=pi,
+            means=means,
+            covariances=covariances
+        )
+        
+        # Huấn luyện mô hình - dùng phương thức fit của continueHMM
+        model.fit(X_cls, n_loop=n_loop, bound_learning=tol)
+        models[cls] = model
+        
+        print(f"✅ Hoàn thành huấn luyện lớp: {cls}\n")
+    
+    print(f"{'='*60}")
+    print(f"✅ HOÀN THÀNH HUẤN LUYỆN TẤT CẢ CÁC LỚP")
+    print(f"{'='*60}\n")
+    
+    return models
 
-    print("\n--- Đánh giá ---")
+
+def evaluate_hmm(models, X_test, y_test, class_names):
+    """
+    Đánh giá mô hình HMM
+    
+    Args:
+        models: Dictionary chứa các mô hình HMM
+        X_test: Dữ liệu kiểm thử
+        y_test: Nhãn kiểm thử
+        class_names: Tên các lớp
+    
+    Returns:
+        metrics: Dictionary chứa các chỉ số đánh giá
+    """
+    print(f"\n{'='*60}")
+    print(f"🔍 BẮT ĐẦU ĐÁNH GIÁ MÔ HÌNH")
+    print(f"{'='*60}\n")
+    
+    # Dự đoán
     y_pred = []
-    for seq in X_test:
-        scores = [m.forward(seq)[0] for m in models]  # log_prob từ forward
-        y_pred.append(int(np.argmax(scores)))
-
+    for i, x in enumerate(X_test):
+        scores = {}
+        for cls_name, model in models.items():
+            try:
+                # Dùng phương thức forward của continueHMM
+                log_prob, _, _ = model.forward(x)
+                scores[cls_name] = log_prob
+            except:
+                scores[cls_name] = float('-inf')
+        
+        predicted_class = max(scores, key=scores.get)
+        y_pred.append(class_names.index(predicted_class))
+    
+    y_pred = np.array(y_pred)
+    
     # Tính các metrics
     acc = accuracy_score(y_test, y_pred)
     precision_macro = precision_score(y_test, y_pred, average='macro', zero_division=0)
@@ -77,36 +156,37 @@ def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_name
     recall_weighted = recall_score(y_test, y_pred, average='weighted', zero_division=0)
     f1_macro = f1_score(y_test, y_pred, average='macro', zero_division=0)
     f1_weighted = f1_score(y_test, y_pred, average='weighted', zero_division=0)
-
-    # In kết quả tổng quát
-    print(f"\n{'='*60}")
-    print(f"{'TỔNG KẾT KẾT QUẢ':^60}")
+    
+    # In ma trận nhầm lẫn
     print(f"{'='*60}")
-    print(f"Accuracy:           {acc:.4f}")
-    print(f"\nPrecision (Macro):  {precision_macro:.4f}")
-    print(f"Precision (Weight): {precision_weighted:.4f}")
-    print(f"\nRecall (Macro):     {recall_macro:.4f}")
-    print(f"Recall (Weight):    {recall_weighted:.4f}")
-    print(f"\nF1-Score (Macro):   {f1_macro:.4f}")
-    print(f"F1-Score (Weight):  {f1_weighted:.4f}")
-    print(f"{'='*60}\n")
-
-    # In báo cáo chi tiết theo từng lớp
-    print("\n--- Báo cáo phân loại chi tiết ---")
-    print(classification_report(y_test, y_pred, target_names=class_names, zero_division=0))
-
-    # Vẽ confusion matrix
+    print(f"📊 MA TRẬN NHẦM LẪN")
+    print(f"{'='*60}")
     cm = confusion_matrix(y_test, y_pred)
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-                xticklabels=class_names, yticklabels=class_names)
-    plt.title('Confusion Matrix (continueHMM)')
-    plt.xlabel('Predicted')
-    plt.ylabel('True')
-    plt.tight_layout()
-    plt.show()
-
-    # Tạo dictionary chứa tất cả metrics để trả về
+    print("\nConfusion Matrix:")
+    print(cm)
+    print()
+    
+    # In báo cáo chi tiết theo từng lớp
+    print(f"{'='*60}")
+    print(f"📋 BÁO CÁO PHÂN LOẠI CHI TIẾT")
+    print(f"{'='*60}")
+    print(classification_report(y_test, y_pred, target_names=class_names, zero_division=0))
+    print(f"{'='*60}\n")
+    
+    # In tổng kết
+    print(f"{'='*60}")
+    print(f"📊 TỔNG KẾT KẾT QUẢ")
+    print(f"{'='*60}")
+    print(f"   - Accuracy:           {acc:.4f}")
+    print(f"\n   - Precision (Macro):  {precision_macro:.4f}")
+    print(f"   - Precision (Weight): {precision_weighted:.4f}")
+    print(f"\n   - Recall (Macro):     {recall_macro:.4f}")
+    print(f"   - Recall (Weight):    {recall_weighted:.4f}")
+    print(f"\n   - F1-Score (Macro):   {f1_macro:.4f}")
+    print(f"   - F1-Score (Weight):  {f1_weighted:.4f}")
+    print(f"{'='*60}\n")
+    
+    # Tạo dictionary kết quả
     metrics = {
         'accuracy': acc,
         'precision_macro': precision_macro,
@@ -115,78 +195,174 @@ def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_name
         'recall_weighted': recall_weighted,
         'f1_macro': f1_macro,
         'f1_weighted': f1_weighted,
-        'confusion_matrix': cm
+        'confusion_matrix': cm,
+        'y_pred': y_pred
     }
     
-    return models, y_pred, metrics
+    return metrics
 
 
-
-
-
-
-
-
-
-from hmmlearn import hmm
-def train_and_evaluate_hmm(X_train, X_test, y_train, y_test, class_names, num_states=5, n_iter=100, covariance_type="diag"):
+def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_names, 
+                                    num_states=5, n_loop=30, tol=1e-3):
     """
-    Huấn luyện 10 mô hình HMM trên dữ liệu đã được chia sẵn và đánh giá.
+    Hàm kết hợp huấn luyện và đánh giá (giữ lại để tương thích ngược)
     
-    Hàm này không còn tự tải hay xử lý dữ liệu nữa.
+    Returns:
+        models: Dictionary chứa các mô hình HMM
+        metrics: Dictionary chứa các chỉ số đánh giá
+    """
+    # Huấn luyện
+    models = train_hmm(X_train, y_train, class_names, num_states, n_loop, tol)
+    # Đánh giá
+    metrics = evaluate_hmm(models, X_test, y_test, class_names)
+    return models, metrics
+
+def save_model(models, scaler, metrics, save_dir='saved_models', model_name=None):
+    """
+    Lưu mô hình HMM, scaler và metrics
     
     Args:
-        X_train, X_test, y_train, y_test: Dữ liệu đã được chia.
-        class_names (list): Danh sách tên các lớp để hiển thị kết quả.
+        models: Dictionary chứa các mô hình HMM đã huấn luyện
+        scaler: Scaler đã được fit (StandardScaler, MinMaxScaler, etc.)
+        metrics: Dictionary chứa các chỉ số đánh giá
+        save_dir: Thư mục lưu mô hình
+        model_name: Tên mô hình (nếu None sẽ tự động tạo theo timestamp)
+    
+    Returns:
+        save_path: Đường dẫn thư mục đã lưu
     """
-    # 1. HUẤN LUYỆN 10 MÔ HÌNH HMM
-    print("\n--- Bắt đầu huấn luyện 10 mô hình HMM... ---")
-    hmm_models = []
-    for i in range(len(class_names)):
-        # Lấy ra danh sách các chuỗi của lớp hiện tại
-        X_class_list = [X_train[j] for j, label in enumerate(y_train) if label == i]
-        
-        # Nối tất cả các chuỗi lại thành một mảng lớn
-        X_class_concatenated = np.vstack(X_class_list)
-        # Tạo mảng lengths để cho HMM biết độ dài của từng chuỗi
-        lengths = [len(x) for x in X_class_list]
-        
-        # Khởi tạo mô hình GaussianHMM
-        # n_components: số trạng thái ẩn (hyperparameter cần tinh chỉnh)
-        # covariance_type: "diag" là lựa chọn phổ biến cho MFCC
-        model = hmm.GaussianHMM(n_components=num_states, covariance_type=covariance_type, n_iter=n_iter)
-        
-        # Huấn luyện mô hình với dữ liệu nối và mảng lengths
-        model.fit(X_class_concatenated, lengths=lengths)
-        hmm_models.append(model)
-        print(f"Đã huấn luyện xong mô hình cho lớp: '{class_names[i]}'")
+    # Tạo tên mô hình nếu chưa có
+    if model_name is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        model_name = f"hmm_model_{timestamp}"
+    
+    # Tạo thư mục lưu
+    save_path = os.path.join(save_dir, model_name)
+    os.makedirs(save_path, exist_ok=True)
+    
+    print(f"\n{'='*60}")
+    print(f"💾 BẮT ĐẦU LƯU MÔ HÌNH")
+    print(f"{'='*60}")
+    print(f"   - Thư mục lưu: {save_path}")
+    print(f"{'='*60}\n")
+    
+    # 1. Lưu models (HMM)
+    models_path = os.path.join(save_path, 'models.pkl')
+    with open(models_path, 'wb') as f:
+        pickle.dump(models, f)
+    print(f"✅ Đã lưu models tại: {models_path}")
+    
+    # 2. Lưu scaler
+    scaler_path = os.path.join(save_path, 'scaler.pkl')
+    with open(scaler_path, 'wb') as f:
+        pickle.dump(scaler, f)
+    print(f"✅ Đã lưu scaler tại: {scaler_path}")
+    
+    # 3. Lưu metrics
+    # Chuyển đổi các numpy array trong metrics sang list để lưu JSON
+    metrics_serializable = {}
+    for key, value in metrics.items():
+        if isinstance(value, np.ndarray):
+            metrics_serializable[key] = value.tolist()
+        elif isinstance(value, (np.int64, np.int32, np.float64, np.float32)):
+            metrics_serializable[key] = float(value)
+        else:
+            metrics_serializable[key] = value
+    
+    metrics_path = os.path.join(save_path, 'metrics.json')
+    with open(metrics_path, 'w', encoding='utf-8') as f:
+        json.dump(metrics_serializable, f, indent=4, ensure_ascii=False)
+    print(f"✅ Đã lưu metrics tại: {metrics_path}")
+    
+    # 4. Lưu thông tin tóm tắt
+    summary = {
+        'model_name': model_name,
+        'save_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'num_classes': len(models),
+        'class_names': list(models.keys()),
+        'accuracy': float(metrics.get('accuracy', 0)),
+        'f1_macro': float(metrics.get('f1_macro', 0)),
+        'f1_weighted': float(metrics.get('f1_weighted', 0))
+    }
+    
+    summary_path = os.path.join(save_path, 'summary.json')
+    with open(summary_path, 'w', encoding='utf-8') as f:
+        json.dump(summary, f, indent=4, ensure_ascii=False)
+    print(f"✅ Đã lưu summary tại: {summary_path}")
+    
+    print(f"\n{'='*60}")
+    print(f"✅ HOÀN THÀNH LƯU MÔ HÌNH")
+    print(f"{'='*60}")
+    print(f"   📁 Thư mục: {save_path}")
+    print(f"   📊 Accuracy: {summary['accuracy']:.4f}")
+    print(f"   📈 F1-Score (Macro): {summary['f1_macro']:.4f}")
+    print(f"{'='*60}\n")
+    
+    return save_path
 
-    # 2. ĐÁNH GIÁ TRÊN TẬP KIỂM THỬ
-    print("\n--- Đang đánh giá trên tập kiểm thử... ---")
-    y_pred = []
-    # Bây giờ X_test là một danh sách các chuỗi
-    for test_sequence in X_test:
-        log_likelihoods = []
-        for model in hmm_models:
-            # Chấm điểm cho từng chuỗi
-            score = model.score(test_sequence)
-            log_likelihoods.append(score)
-        
-        # Tìm chỉ số (lớp) của mô hình có log-likelihood cao nhất
-        predicted_class = np.argmax(log_likelihoods)
-        y_pred.append(predicted_class)
 
-    # 3. HIỂN THỊ KẾT QUẢ
-    print("\n--- Kết quả đánh giá ---")
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f"Độ chính xác (Accuracy): {accuracy:.4f}")
+def load_model(load_path):
+    """
+    Tải mô hình HMM, scaler và metrics
+    
+    Args:
+        load_path: Đường dẫn thư mục chứa mô hình
+    
+    Returns:
+        models: Dictionary chứa các mô hình HMM
+        scaler: Scaler
+        metrics: Dictionary chứa các chỉ số đánh giá
+        summary: Dictionary chứa thông tin tóm tắt
+    """
+    print(f"\n{'='*60}")
+    print(f"📂 BẮT ĐẦU TẢI MÔ HÌNH")
+    print(f"{'='*60}")
+    print(f"   - Đường dẫn: {load_path}")
+    print(f"{'='*60}\n")
+    
+    # Kiểm tra thư mục tồn tại
+    if not os.path.exists(load_path):
+        raise FileNotFoundError(f"Không tìm thấy thư mục: {load_path}")
+    
+    # 1. Tải models
+    models_path = os.path.join(load_path, 'models.pkl')
+    with open(models_path, 'rb') as f:
+        models = pickle.load(f)
+    print(f"✅ Đã tải models từ: {models_path}")
+    
+    # 2. Tải scaler
+    scaler_path = os.path.join(load_path, 'scaler.pkl')
+    with open(scaler_path, 'rb') as f:
+        scaler = pickle.load(f)
+    print(f"✅ Đã tải scaler từ: {scaler_path}")
+    
+    # 3. Tải metrics
+    metrics_path = os.path.join(load_path, 'metrics.json')
+    with open(metrics_path, 'r', encoding='utf-8') as f:
+        metrics = json.load(f)
+    
+    # Chuyển confusion_matrix và y_pred về numpy array
+    if 'confusion_matrix' in metrics:
+        metrics['confusion_matrix'] = np.array(metrics['confusion_matrix'])
+    if 'y_pred' in metrics:
+        metrics['y_pred'] = np.array(metrics['y_pred'])
+    
+    print(f"✅ Đã tải metrics từ: {metrics_path}")
+    
+    # 4. Tải summary
+    summary_path = os.path.join(load_path, 'summary.json')
+    with open(summary_path, 'r', encoding='utf-8') as f:
+        summary = json.load(f)
+    print(f"✅ Đã tải summary từ: {summary_path}")
+    
+    print(f"\n{'='*60}")
+    print(f"✅ HOÀN THÀNH TẢI MÔ HÌNH")
+    print(f"{'='*60}")
+    print(f"   📅 Ngày lưu: {summary['save_time']}")
+    print(f"   🏷️  Số lớp: {summary['num_classes']}")
+    print(f"   📊 Accuracy: {summary['accuracy']:.4f}")
+    print(f"   📈 F1-Score (Macro): {summary['f1_macro']:.4f}")
+    print(f"{'='*60}\n")
+    
+    return models, scaler, metrics, summary
 
-    # Vẽ ma trận nhầm lẫn
-    cm = confusion_matrix(y_test, y_pred)
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names)
-    plt.title('Ma trận nhầm lẫn (Confusion Matrix)')
-    plt.xlabel('Nhãn dự đoán (Predicted Label)')
-    plt.ylabel('Nhãn thật (True Label)')
-    plt.show()
-    return hmm_models, y_pred, accuracy
