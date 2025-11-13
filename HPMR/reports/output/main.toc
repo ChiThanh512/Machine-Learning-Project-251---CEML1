@@ -6,3 +6,12 @@
 \contentsline {subsection}{\numberline {2.3}Giải thuật Backward}{6}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Giải thuật Viterbi}{7}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Giải thuật huấn luyện tham số Baum-Welch}{9}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Huấn luyện mô hình HMM}{15}{subsection.2.6}%
+\contentsline {subsubsection}{\numberline {2.6.1}Tập dữ liệu huấn luyện}{15}{subsubsection.2.6.1}%
+\contentsline {subsubsection}{\numberline {2.6.2}Phương pháp xây dựng mô hình}{16}{subsubsection.2.6.2}%
+\contentsline {subsubsection}{\numberline {2.6.3}Hiện thực hàm huấn luyện mô hình}{17}{subsubsection.2.6.3}%
+\contentsline {subsubsection}{\numberline {2.6.4}Hiện thực hàm kiểm tra}{18}{subsubsection.2.6.4}%
+\contentsline {subsection}{\numberline {2.7}Đánh giá mô hình}{19}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Kết luận}{21}{subsection.2.8}%
+\contentsline {subsubsection}{\numberline {2.8.1}Ưu điểm}{21}{subsubsection.2.8.1}%
+\contentsline {subsubsection}{\numberline {2.8.2}Nhượt điểm}{22}{subsubsection.2.8.2}%

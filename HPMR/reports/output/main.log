@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.2)  12 NOV 2025 11:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.2)  13 NOV 2025 23:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -994,7 +994,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<graphics/hcmut.png, id=35, 291.0072pt x 293.898pt>
+<graphics/hcmut.png, id=71, 291.0072pt x 293.898pt>
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
 Package pdftex.def Info: graphics/hcmut.png  used on input line 24.
@@ -1059,14 +1059,14 @@ File: t5cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `T5/cmtt/bx/n' in size <13> not available
 (Font)              Font shape `T5/cmtt/m/n' tried instead on input line 29.
  [3]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 41.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 43.
  (c:/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 54.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 55.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [4{c:/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}] (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
@@ -1074,226 +1074,226 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 91.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 93.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [5
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.91 
+l.93 
      ]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.113 \begin{equation}
+l.115 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.113 \begin{equation}
+l.115 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.113 \begin{equation}
+l.115 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.113 \begin{equation}
+l.115 \begin{equation}
                       
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 137.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 139.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [6]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.144 \begin{equation}
+l.146 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.144 \begin{equation}
+l.146 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.144 \begin{equation}
+l.146 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.144 \begin{equation}
+l.146 \begin{equation}
                       
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 180.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 182.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [7]
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 216.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 218.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [8]
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 249.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 251.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [9]
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 283.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 285.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [10]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.322 \begin{equation}
+l.324 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.322 \begin{equation}
+l.324 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.322 \begin{equation}
+l.324 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.322 \begin{equation}
+l.324 \begin{equation}
                       
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 343.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 345.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [11]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.349 \begin{equation}
+l.351 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.349 \begin{equation}
+l.351 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.349 \begin{equation}
+l.351 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.349 \begin{equation}
+l.351 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.366 \begin{equation}
+l.368 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.366 \begin{equation}
+l.368 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.366 \begin{equation}
+l.368 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.366 \begin{equation}
+l.368 \begin{equation}
                       
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 380.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 382.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [12]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.380 \begin{equation}
+l.382 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.380 \begin{equation}
+l.382 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.380 \begin{equation}
+l.382 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.380 \begin{equation}
+l.382 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.397 \begin{equation}
+l.399 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.397 \begin{equation}
+l.399 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.397 \begin{equation}
+l.399 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.397 \begin{equation}
+l.399 \begin{equation}
                       
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 434.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 436.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [13]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.437 \begin{equation}
+l.441 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.437 \begin{equation}
+l.441 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.437 \begin{equation}
+l.441 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.437 \begin{equation}
+l.441 \begin{equation}
                       
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 444.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 448.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [14]
 \openout2 = `EDA_prep.aux'.
@@ -1301,17 +1301,83 @@ Package pdftex.def Info: graphics/hcmut.png  used on input line 444.
  (./EDA_prep.tex)
 \openout2 = `ML_train.aux'.
 
- (./ML_train.tex)
+ (./ML_train.tex
+<graphics/X_train1.png, id=279, 1221.06187pt x 840.13875pt>
+File: graphics/X_train1.png Graphic file (type png)
+<use graphics/X_train1.png>
+Package pdftex.def Info: graphics/X_train1.png  used on input line 13.
+(pdftex.def)             Requested size: 483.69687pt x 332.80621pt.
+<graphics/X_train2.png, id=280, 1202.24156pt x 822.82407pt>
+File: graphics/X_train2.png Graphic file (type png)
+<use graphics/X_train2.png>
+Package pdftex.def Info: graphics/X_train2.png  used on input line 20.
+(pdftex.def)             Requested size: 483.69687pt x 331.04475pt.
+
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 447.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 25.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
 [15
 
 
 
 
+ <./graphics/X_train1.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 43.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[16 <./graphics/X_train2.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 82.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[17]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 120.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[18]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 138.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[19]
+<graphics/confuse.png, id=343, 478.4274pt x 498.663pt>
+File: graphics/confuse.png Graphic file (type png)
+<use graphics/confuse.png>
+Package pdftex.def Info: graphics/confuse.png  used on input line 144.
+(pdftex.def)             Requested size: 386.95897pt x 403.33653pt.
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 149.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[20 <./graphics/confuse.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 190.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[21])
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 449.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[22]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 454.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[23
 
 
 ] (output/main.aux (output/EDA_prep.aux) (output/ML_train.aux))
@@ -1320,21 +1386,21 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-07-20>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: DFA864F4EAB5339ECC2C59CAC25D9487;1191.
+(rerunfilecheck)             Checksum: 3BE2521A6FE432C916FC948933C01F17;2816.
  ) 
 Here is how much of TeX's memory you used:
- 30609 strings out of 467801
- 566845 string characters out of 5436090
+ 30793 strings out of 467801
+ 569673 string characters out of 5436090
  1195661 words of memory out of 5000000
- 58587 multiletter control sequences out of 15000+600000
+ 58713 multiletter control sequences out of 15000+600000
  686002 words of font info for 128 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  125i,24n,121p,564b,1463s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmri8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vntt12.pfb>
-Output written on output/main.pdf (15 pages, 229883 bytes).
+Output written on output/main.pdf (23 pages, 485131 bytes).
 PDF statistics:
- 322 PDF objects out of 1000 (max. 8388607)
- 276 compressed objects within 3 object streams
- 139 named destinations out of 1000 (max. 500000)
- 74 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 461 PDF objects out of 1000 (max. 8388607)
+ 400 compressed objects within 4 object streams
+ 197 named destinations out of 1000 (max. 500000)
+ 161 words of extra memory for PDF output out of 10000 (max. 10000000)
 
