@@ -197,32 +197,27 @@ def train_and_evaluate_continue_hmm(X_train, X_test, y_train, y_test, class_name
     metrics = evaluate_hmm(models, X_test, y_test, class_names)
     return models, metrics
 
-def save_model(models, scaler, metrics, save_dir='saved_models', model_name=None):
+def save_model(models, scaler, metrics, class_names, save_dir='saved_models', model_name=None):
     """
-    Lưu mô hình HMM, scaler và metrics
+    Lưu mô hình HMM (list), scaler và metrics.
     
     Args:
-        models: Dictionary chứa các mô hình HMM đã huấn luyện
-        scaler: Scaler đã được fit (StandardScaler, MinMaxScaler, etc.)
+        models: List (danh sách) chứa các mô hình HMM đã huấn luyện
+        scaler: Scaler đã được fit
         metrics: Dictionary chứa các chỉ số đánh giá
-        save_dir: Thư mục lưu mô hình
-        model_name: Tên mô hình (nếu None sẽ tự động tạo theo timestamp)
-    
-    Returns:
-        save_path: Đường dẫn thư mục đã lưu
+        class_names: List (danh sách) tên các lớp (ví dụ: ['class_A', 'class_B'])
     """
-    # Tạo tên mô hình nếu chưa có
+    # 1. Tạo tên mô hình nếu chưa có
     if model_name is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         model_name = f"hmm_model_{timestamp}"
     
-    # Tạo thư mục lưu
+    # 2. Tạo thư mục lưu
     save_path = os.path.join(save_dir, model_name)
     os.makedirs(save_path, exist_ok=True)
     
     print(f"\n{'='*60}")
     print(f"💾 BẮT ĐẦU LƯU MÔ HÌNH")
-    print(f"{'='*60}")
     print(f"   - Thư mục lưu: {save_path}")
     print(f"{'='*60}\n")
     
@@ -230,36 +225,37 @@ def save_model(models, scaler, metrics, save_dir='saved_models', model_name=None
     models_path = os.path.join(save_path, 'models.pkl')
     with open(models_path, 'wb') as f:
         pickle.dump(models, f)
-    print(f"✅ Đã lưu models tại: {models_path}")
+    print(f"✅ Đã lưu models (dạng list) tại: {models_path}")
     
     # 2. Lưu scaler
     scaler_path = os.path.join(save_path, 'scaler.pkl')
     with open(scaler_path, 'wb') as f:
         pickle.dump(scaler, f)
     print(f"✅ Đã lưu scaler tại: {scaler_path}")
-    
-    # 3. Lưu metrics
-    # Chuyển đổi các numpy array trong metrics sang list để lưu JSON
+
+    # 3. Chuyển đổi metrics (Numpy -> list) để lưu JSON
     metrics_serializable = {}
     for key, value in metrics.items():
         if isinstance(value, np.ndarray):
             metrics_serializable[key] = value.tolist()
-        elif isinstance(value, (np.int64, np.int32, np.float64, np.float32)):
-            metrics_serializable[key] = float(value)
+        elif isinstance(value, (np.int64, np.int32, np.float64, np.float32, np.bool_)):
+            metrics_serializable[key] = value.item() # Dùng .item() an toàn hơn
         else:
             metrics_serializable[key] = value
-    
+            
     metrics_path = os.path.join(save_path, 'metrics.json')
     with open(metrics_path, 'w', encoding='utf-8') as f:
-        json.dump(metrics_serializable, f, indent=4, ensure_ascii=False)
+        # Dùng metrics_serializable đã được xử lý
+        json.dump(metrics_serializable, f, indent=4, ensure_ascii=False) 
     print(f"✅ Đã lưu metrics tại: {metrics_path}")
+    
     
     # 4. Lưu thông tin tóm tắt
     summary = {
         'model_name': model_name,
         'save_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'num_classes': len(models),
-        'class_names': list(models.keys()),
+        'class_names': class_names,  # Lấy từ tham số class_names
         'accuracy': float(metrics.get('accuracy', 0)),
         'f1_macro': float(metrics.get('f1_macro', 0)),
         'f1_weighted': float(metrics.get('f1_weighted', 0))
@@ -270,6 +266,7 @@ def save_model(models, scaler, metrics, save_dir='saved_models', model_name=None
         json.dump(summary, f, indent=4, ensure_ascii=False)
     print(f"✅ Đã lưu summary tại: {summary_path}")
     
+    # In kết quả cuối cùng
     print(f"\n{'='*60}")
     print(f"✅ HOÀN THÀNH LƯU MÔ HÌNH")
     print(f"{'='*60}")
