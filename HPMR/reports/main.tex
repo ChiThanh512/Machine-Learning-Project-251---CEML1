@@ -32,6 +32,8 @@ Mô hình ẩn Markov (Hidden Markov Model - HMM) là một mô hình thống k�
 Trong bài báo cáo này, nhóm sẽ trình bày về các khái niệm cơ bản của HMM, cách xây dựng và huấn luyện mô hình, cũng như các ứng dụng thực tế của nó. Nhóm sẽ sử dụng một tập dữ liệu cụ thể để minh họa quá trình huấn luyện và đánh giá mô hình HMM.
 
 Tập dữ liệu này là bản thu âm các chữ số từ 0 đến 9, được thu thập từ nhiều người nói khác nhau. Mỗi bản ghi âm sẽ được chuyển đổi thành các đặc trưng âm thanh (features) để làm đầu vào cho mô hình HMM. Mục tiêu của chúng tôi là xây dựng một mô hình HMM có khả năng nhận diện chính xác các chữ số dựa trên các đặc trưng này.
+
+Các hiện thực chi tiết và kết quả được trình bày qua \href{https://github.com/ChiThanh512/Machine-Learning-Project-251---CEML1.git}{github}.
 \section{Hidden Markov Model (HMM)}
 \subsection{Định nghĩa HMM}
 
@@ -434,6 +436,8 @@ self.covariances = S2_term - mean_outers
 
 \textbf{Điều kiện dừng:} Thuật toán lặp lại cho đến khi log-likelihood hội tụ:
 
+Với log-likelihood tại mỗi vòng lặp là tổng của log xác suất được trả về từ hàm forward cho tất cả quan sát trong tập train.
+
 \begin{equation}
 |LL_{iter} - LL_{iter-1}| < \epsilon
 \end{equation}
@@ -444,5 +448,8 @@ self.covariances = S2_term - mean_outers
 \include{EDA_prep}
 \include{ML_train}
 \section*{Tài liệu tham khảo}
+
+\label{[1]} [1] L. R. Rabiner, 1989, "\textit{A Tutorial on Hidden Markov Models and Selected Applications in Speech Recognition}," Proceedings of the IEEE.
+
 \newpage
 \end{document}
