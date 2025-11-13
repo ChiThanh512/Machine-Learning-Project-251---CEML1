@@ -11,22 +11,10 @@ from datetime import datetime
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-from sklearn.cluster import KMeans
-
 def _init_params(num_states, seq_list):
-    """
-    Khởi tạo A, pi, means, covariances.
-    - A, pi: Khởi tạo "left-to-right".
-    - means, covariances: Khởi tạo bằng K-Means.
-    """
-    X = np.vstack(seq_list)           # (T_total, D)
+    X = np.vstack(seq_list)
     D = X.shape[1]
-    T_total = X.shape[0]
-
-    # pi: phân bố đều
     pi = np.full(num_states, 1.0/num_states)
-
-    # A: gần như tuần tự (left-to-right nhẹ)
     A = np.zeros((num_states, num_states))
     for i in range(num_states):
         stay = 0.6
@@ -36,34 +24,14 @@ def _init_params(num_states, seq_list):
         else:
             A[i, i] = stay
             A[i, i+1] = move
-    # chuẩn hóa (đảm bảo tổng hàng bằng 1, ngay cả khi num_states=1)
     A /= A.sum(axis=1, keepdims=True)
+
+    means = np.random.randn(num_states, D)
+    global_var = np.var(X, axis=0) + 1e-3
     
-    print(f"    ... Đang chạy K-Means (K={num_states}) trên {T_total} frames để khởi tạo...")
-    
-    # 1. Chạy K-Means để tìm các cụm
-    # n_init=10 sẽ chạy 10 lần với các tâm ngẫu nhiên khác nhau và chọn lần tốt nhất
-    kmeans = KMeans(n_clusters=num_states, random_state=42, n_init=10).fit(X)
-    
-    # 2. Gán means
-    # Tâm của các cụm K-Means chính là means ban đầu
-    means = kmeans.cluster_centers_
-    
-    # 3. Tính covariances dựa trên các cụm
     covariances = np.zeros((num_states, D, D))
     for s in range(num_states):
-        # Lấy tất cả các frame thuộc về cụm (trạng thái) s
-        frames = X[kmeans.labels_ == s]
-        
-        if len(frames) < 2: # Nếu cụm quá nhỏ (hoặc rỗng)
-            # fallback: dùng mean ngẫu nhiên và ma trận hiệp phương sai chung
-            print(f"    ... Cảnh báo: Cụm {s} có < 2 frames. Dùng fallback.")
-            means[s] = X[np.random.randint(0, T_total)]
-            covariances[s] = np.diag(np.var(X, axis=0) + 1e-2)
-        else:
-            # Tính hiệp phương sai chéo (như code gốc của bạn)
-            var = frames.var(axis=0) + 1e-2
-            covariances[s] = np.diag(var)
+        covariances[s] = np.diag(global_var)
 
     return A, pi, means, covariances
 
