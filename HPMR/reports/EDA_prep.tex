@@ -246,4 +246,106 @@ Nguồn dữ liệu: \url{https://www.kaggle.com/datasets/subhajournal/free-spok
 
 Nhiệm vụ của nhóm là xây dựng mười mô hình HMM để nhận diện chính xác chữ số được nói trong mỗi mẫu âm thanh.
 \subsection{Thống kê mô tả tập dữ liệu:}
-Quan sát sơ bộ tập dữ liệu, ta thấy rằng mỗi lớp âm thanh .
+Quan sát sơ bộ tập dữ liệu, ta thấy rằng mỗi lớp âm thanh đều có số lượng mẫu tương đương nhau, cụ thể là 1700 mẫu cho mỗi chữ số từ 0 đến 9. 
+Điều này giúp đảm bảo tính cân bằng trong quá trình huấn luyện mô hình, tránh hiện tượng lệch lớp (class imbalance) có thể ảnh hưởng tiêu cực đến hiệu suất nhận dạng. 
+\\
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.65\textwidth]{./graphics/EDA_1.png} % PNG/JPG/PDF
+  \caption{Thống kê sơ bộ tập dữ liệu}
+  \label{Thống kê sơ bộ tập dữ liệu}
+\end{figure}\\
+Quan sát độ dài mẫu, có thể thấy độ dài của các mẫu âm thanh cũng khá đồng đều, chủ yếu tập trung trong khoảng từ 0.7 đến 0.8 giây. 
+Quan sát trên biểu đồ hộp (box plot) cho thấy các lớp đều có phần râu trên ngắn, và râu dưới khá dài và tập dữ liệu có ít outliers.
+\\
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.65\textwidth]{./graphics/EDA_3.png} % PNG/JPG/PDF
+  \caption{Thống kê thời gian trên tập dữ liệu}
+  \label{Thống kê thời gian trên tập dữ liệu}
+\end{figure}\\
+Quan sát thông kê root mean square (RMS) energy trên toàn bộ tập dữ liệu, ta thấy mức năng lượng RMS có xung hướng lệch trái, 
+có thể dự đoán là do các mẫu âm thanh có nhiều đoạn im lặng ở đầu và cuối hoặc do trong phát âm có nhiều âm vô thanh.
+\\
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.65\textwidth]{./graphics/EDA_2.png} % PNG/JPG/PDF
+  \caption{Thống kê RMS trên tập dữ liệu}
+  \label{Thống kê RMS trên tập dữ liệu}
+\end{figure}\\
+\newpage
+\subsection{Trích xuất đặc trưng}
+Các tham số chính được sử dụng trong quá trình trích xuất đặc trưng MFCC bao gồm:
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+SR = 22050 
+N_FFT = 512 
+N_HOP = 256  
+N_MFCC = 13
+N_MELS = 40
+TOP_DB = 40
+pre_emphasis = 0.95
+\end{lstlisting}
+\end{tcolorbox}
+\begin{itemize} 
+  \item \textbf{SR = 22050 (Hz)}: Tần số lấy mẫu (Sample Rate, $f_s$). Đây là số lượng mẫu âm thanh được lấy trong một giây. 
+  \item \textbf{N\_FFT = 512 (mẫu)}: Kích thước cửa sổ FFT (FFT Window Size). Đây là số lượng mẫu được sử dụng trong mỗi khung (frame) để thực hiện Biến đổi Fourier nhanh (FFT). 
+  \item \textbf{N\_HOP = 256 (mẫu)}: Kích thước bước nhảy (Hop Length). Đây là số lượng mẫu mà cửa sổ phân tích dịch chuyển giữa các khung liên tiếp. (Lưu ý: $N\_HOP < N\_FFT$ tạo ra sự chồng lấn khung). 
+  \item \textbf{N\_MFCC = 13}: Số lượng hệ số MFCC (Number of MFCCs). Đây là số lượng hệ số Mel-Frequency Cepstral cuối cùng được giữ lại làm đặc trưng. 
+  \item \textbf{N\_MELS = 40}: Số lượng bộ lọc Mel (Number of Mel Filters). Đây là số lượng dải tần (bộ lọc tam giác) được sử dụng để tính toán Mel spectrogram, mô phỏng thang đo Mel của tai người. 
+  \item \textbf{TOP\_DB = 40 (dB)}: Ngưỡng Decibel trên (Top Decibel). Được sử dụng để chuẩn hóa phổ, loại bỏ các thành phần tín hiệu yếu (nhiễu) yếu hơn 40 dB so với thành phần mạnh nhất. 
+  \item \textbf{pre\_emphasis = 0.95}: Hệ số Tiền nhấn (Pre-emphasis Coefficient). Một hệ số $\alpha$ (alpha) được sử dụng trong bộ lọc $y[n] = x[n] - \alpha \cdot x[n-1]$ để tăng cường các thành phần tần số cao của tín hiệu âm thanh. 
+\end{itemize}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+def extract_features(file_path):
+    try:
+        
+        audio, sample_rate = librosa.load(file_path, sr=SR)
+        audio, index = librosa.effects.trim(audio, top_db=TOP_DB)
+        y = np.append(audio[0], audio[1:] - pre_emphasis * audio[:-1])
+        mfcc = librosa.feature.mfcc(
+        y=y,
+        sr=sample_rate,
+        n_mfcc=N_MFCC,          
+        n_fft=N_FFT,          
+        hop_length=N_HOP,     
+        n_mels=N_MELS,          
+        fmin=300,           
+        fmax=8000,          
+        dct_type=2,         
+        norm='ortho',       
+        lifter=22           
+        )
+        delta = librosa.feature.delta(mfcc)
+        delta2 = librosa.feature.delta(mfcc, order=2)
+        mfccs_features = np.vstack([mfcc, delta, delta2]).T
+        return mfccs_features
+    except Exception as e:
+        print(f"fail to process {file_path}: {e}")
+        return None
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\subsection{Phân chia dữ liệu:}
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+def split_train_test(X_list, y, test_size=0.2, random_state=42):
+    indices = np.arange(len(X_list))
+    train_indices, test_indices = train_test_split(indices, test_size=test_size, random_state=random_state, stratify=y)
+    
+    X_train = [X_list[i] for i in train_indices]
+    X_test = [X_list[i] for i in test_indices]
+    y_train = y[train_indices]
+    y_test = y[test_indices]
+    X_concatenated = np.vstack(X_train)
+    scaler = StandardScaler()
+    scaler.fit(X_concatenated)
+    X_train = [scaler.transform(x) for x in X_train]
+    X_test = [scaler.transform(x) for x in X_test]
+    return X_train, X_test, y_train, y_test, scaler
+
+\end{lstlisting}
+\end{tcolorbox}

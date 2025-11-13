@@ -15,12 +15,14 @@
 \contentsline {section}{\numberline {4}Ứng dụng giải thuật}{24}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Tổng quan tập dữ liệu và nhiệm vụ của nhóm:}{24}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Thống kê mô tả tập dữ liệu:}{24}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Huấn luyện mô hình HMM}{25}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Tập dữ liệu huấn luyện}{25}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Phương pháp xây dựng mô hình}{26}{subsubsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.3}Hiện thực hàm huấn luyện mô hình}{27}{subsubsection.4.3.3}%
-\contentsline {subsubsection}{\numberline {4.3.4}Hiện thực hàm kiểm tra}{28}{subsubsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.4}Đánh giá mô hình}{29}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Kết luận}{31}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1}Ưu điểm}{31}{subsubsection.4.5.1}%
-\contentsline {subsubsection}{\numberline {4.5.2}Nhượt điểm}{32}{subsubsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.3}Trích xuất đặc trưng}{26}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Phân chia dữ liệu:}{29}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Huấn luyện mô hình HMM}{30}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1}Tập dữ liệu huấn luyện}{30}{subsubsection.4.5.1}%
+\contentsline {subsubsection}{\numberline {4.5.2}Phương pháp xây dựng mô hình}{31}{subsubsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {4.5.3}Hiện thực hàm huấn luyện mô hình}{32}{subsubsection.4.5.3}%
+\contentsline {subsubsection}{\numberline {4.5.4}Hiện thực hàm kiểm tra}{33}{subsubsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.6}Đánh giá mô hình}{34}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Kết luận}{36}{subsection.4.7}%
+\contentsline {subsubsection}{\numberline {4.7.1}Ưu điểm}{36}{subsubsection.4.7.1}%
+\contentsline {subsubsection}{\numberline {4.7.2}Nhược điểm}{37}{subsubsection.4.7.2}%
