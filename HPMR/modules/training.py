@@ -78,34 +78,13 @@ def train_hmm(X_train, y_train, class_names, num_states=5, n_loop=30, tol=1e-3):
     print(f"   - Ngưỡng hội tụ: {tol}")
     print(f"{'='*60}\n")
     
-    models = {}
-    
-    for idx, cls in enumerate(class_names):
-        print(f"🔄 Đang huấn luyện lớp: {cls} ({idx+1}/{len(class_names)})")
-        
-        # Lấy dữ liệu của lớp hiện tại
-        X_cls = [X_train[i] for i in range(len(X_train)) if y_train[i] == idx]
-        
-        if len(X_cls) == 0:
-            print(f"⚠️  Không có dữ liệu cho lớp {cls}")
-            continue
-        
-        # Khởi tạo tham số ban đầu
-        A, pi, means, covariances = _init_params(num_states, X_cls)
-        
-        # Khởi tạo mô hình continueHMM của bạn
-        model = continueHMM(
-            A=A,
-            pi=pi,
-            means=means,
-            covariances=covariances
-        )
-        
-        # Huấn luyện mô hình - dùng phương thức fit của continueHMM
-        model.fit(X_cls, n_loop=n_loop, bound_learning=tol)
-        models[cls] = model
-        
-        print(f"✅ Hoàn thành huấn luyện lớp: {cls}\n")
+    models = []
+    for cls_id, cls_name in enumerate(class_names):
+        seq_list = [X_train[i] for i, y in enumerate(y_train) if y == cls_id]
+        A, pi, means, covs = _init_params(num_states, seq_list)
+        model = continueHMM(A=A, means=means, covariances=covs, pi=pi).fit(seq_list, n_loop=n_loop, bound_learning=tol)
+        models.append(model)
+        print(f"✅ Hoàn thành huấn luyện lớp: {cls_name}\n")
     
     print(f"{'='*60}")
     print(f"✅ HOÀN THÀNH HUẤN LUYỆN TẤT CẢ CÁC LỚP")
@@ -117,15 +96,6 @@ def train_hmm(X_train, y_train, class_names, num_states=5, n_loop=30, tol=1e-3):
 def evaluate_hmm(models, X_test, y_test, class_names):
     """
     Đánh giá mô hình HMM
-    
-    Args:
-        models: Dictionary chứa các mô hình HMM
-        X_test: Dữ liệu kiểm thử
-        y_test: Nhãn kiểm thử
-        class_names: Tên các lớp
-    
-    Returns:
-        metrics: Dictionary chứa các chỉ số đánh giá
     """
     print(f"\n{'='*60}")
     print(f"🔍 BẮT ĐẦU ĐÁNH GIÁ MÔ HÌNH")
@@ -133,22 +103,11 @@ def evaluate_hmm(models, X_test, y_test, class_names):
     
     # Dự đoán
     y_pred = []
-    for i, x in enumerate(X_test):
-        scores = {}
-        for cls_name, model in models.items():
-            try:
-                # Dùng phương thức forward của continueHMM
-                log_prob, _, _ = model.forward(x)
-                scores[cls_name] = log_prob
-            except:
-                scores[cls_name] = float('-inf')
-        
-        predicted_class = max(scores, key=scores.get)
-        y_pred.append(class_names.index(predicted_class))
-    
-    y_pred = np.array(y_pred)
-    
-    # Tính các metrics
+    for seq in X_test:
+        scores = [m.forward(seq)[0] for m in models]
+        y_pred.append(int(np.argmax(scores)))
+
+    # Metrics chung
     acc = accuracy_score(y_test, y_pred)
     precision_macro = precision_score(y_test, y_pred, average='macro', zero_division=0)
     precision_weighted = precision_score(y_test, y_pred, average='weighted', zero_division=0)
@@ -157,36 +116,57 @@ def evaluate_hmm(models, X_test, y_test, class_names):
     f1_macro = f1_score(y_test, y_pred, average='macro', zero_division=0)
     f1_weighted = f1_score(y_test, y_pred, average='weighted', zero_division=0)
     
-    # In ma trận nhầm lẫn
+    # Ma trận nhầm lẫn
     print(f"{'='*60}")
     print(f"📊 MA TRẬN NHẦM LẪN")
     print(f"{'='*60}")
     cm = confusion_matrix(y_test, y_pred)
-    print("\nConfusion Matrix:")
+    print("\nConfusion Matrix (raw):")
     print(cm)
-    print()
     
-    # In báo cáo chi tiết theo từng lớp
+    # Vẽ heatmap confusion
+    plt.figure(figsize=(max(6, len(class_names)*0.7), max(5, len(class_names)*0.7)))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=class_names, yticklabels=class_names)
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.title('Confusion Matrix')
+    plt.tight_layout()
+    plt.show()
+    
+    # Accuracy từng lớp: đúng / tổng thực tế lớp đó
+    per_class_accuracy = []
+    supports = cm.sum(axis=1)
+    for i in range(len(class_names)):
+        acc_i = (cm[i, i] / supports[i]) if supports[i] > 0 else 0.0
+        per_class_accuracy.append(acc_i)
+    
+    print(f"\n{'='*60}")
+    print("📌 ACCURACY TỪNG LỚP")
     print(f"{'='*60}")
+    print(f"{'Lớp':<20} {'Support':>8} {'Correct':>8} {'Acc':>8}")
+    for i, cls in enumerate(class_names):
+        print(f"{cls:<20} {supports[i]:>8} {cm[i,i]:>8} {per_class_accuracy[i]:>8.2%}")
+    
+    # Báo cáo phân loại
+    print(f"\n{'='*60}")
     print(f"📋 BÁO CÁO PHÂN LOẠI CHI TIẾT")
     print(f"{'='*60}")
     print(classification_report(y_test, y_pred, target_names=class_names, zero_division=0))
-    print(f"{'='*60}\n")
     
-    # In tổng kết
+    # Tổng kết
     print(f"{'='*60}")
     print(f"📊 TỔNG KẾT KẾT QUẢ")
     print(f"{'='*60}")
-    print(f"   - Accuracy:           {acc:.4f}")
-    print(f"\n   - Precision (Macro):  {precision_macro:.4f}")
-    print(f"   - Precision (Weight): {precision_weighted:.4f}")
-    print(f"\n   - Recall (Macro):     {recall_macro:.4f}")
-    print(f"   - Recall (Weight):    {recall_weighted:.4f}")
-    print(f"\n   - F1-Score (Macro):   {f1_macro:.4f}")
-    print(f"   - F1-Score (Weight):  {f1_weighted:.4f}")
+    print(f"   - Accuracy (Global):  {acc:.4f}")
+    print(f"   - Precision Macro:    {precision_macro:.4f}")
+    print(f"   - Precision Weighted: {precision_weighted:.4f}")
+    print(f"   - Recall Macro:       {recall_macro:.4f}")
+    print(f"   - Recall Weighted:    {recall_weighted:.4f}")
+    print(f"   - F1 Macro:           {f1_macro:.4f}")
+    print(f"   - F1 Weighted:        {f1_weighted:.4f}")
     print(f"{'='*60}\n")
     
-    # Tạo dictionary kết quả
     metrics = {
         'accuracy': acc,
         'precision_macro': precision_macro,
@@ -196,9 +176,9 @@ def evaluate_hmm(models, X_test, y_test, class_names):
         'f1_macro': f1_macro,
         'f1_weighted': f1_weighted,
         'confusion_matrix': cm,
-        'y_pred': y_pred
+        'y_pred': y_pred,
+        'per_class_accuracy': np.array(per_class_accuracy)
     }
-    
     return metrics
 
 
