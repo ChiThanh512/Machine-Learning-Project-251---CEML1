@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1763085800.58852 "c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex" "output/main.pdf" "main" 1763085806.35792 0
+["pdflatex"] 1763086080.15313 "c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex" "output/main.pdf" "main" 1763086085.7629 0
   "EDA_prep.tex" 1763085793 20916 c2dd1ec18b835ea58f03f5ae66b84e5a ""
   "ML_train.tex" 1763085639 9451 43ee19a8940d8042e1a5e613b9aff8e1 ""
   "c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex" 1763085753 19736 e6c7b29e343ab68c7dea391f1f3c470b ""
@@ -226,13 +226,13 @@
   "graphics/X_train2.png" 1763044870 106742 273e886cdc6102ad50066e36fa17801d ""
   "graphics/confuse.png" 1763050523 45359 93e49c36cefb7efa7769632a60e814ad ""
   "graphics/hcmut.png" 1726658106 100724 34813e7945d25073d2021fd11a318249 ""
-  "hcmut_report.cls" 1762872734 7011 db0dbf07c802d6e6d2204f272e6946ee ""
+  "hcmut_report.cls" 1763086078 7011 4d00c2101fa87b0095aebd23fafe81ee ""
   "main.tex" 1763085753 19736 e6c7b29e343ab68c7dea391f1f3c470b ""
-  "output/EDA_prep.aux" 1763085805 4841 df56127fe1b4eb8373d8ac1ad8b6a3cf "pdflatex"
-  "output/ML_train.aux" 1763085805 3484 6bbce4821a6e1ae35c88952ddf66c484 "pdflatex"
-  "output/main.aux" 1763085805 1599 8416e3626c9d087ed57c8c0860b8c991 "pdflatex"
-  "output/main.out" 1763085805 5347 86ba21d4565095815e58cc09d9302d9e "pdflatex"
-  "output/main.toc" 1763085805 2681 c2a456da2620339185abc45d05fc043a "pdflatex"
+  "output/EDA_prep.aux" 1763086084 4841 df56127fe1b4eb8373d8ac1ad8b6a3cf "pdflatex"
+  "output/ML_train.aux" 1763086085 3484 6bbce4821a6e1ae35c88952ddf66c484 "pdflatex"
+  "output/main.aux" 1763086085 1599 8416e3626c9d087ed57c8c0860b8c991 "pdflatex"
+  "output/main.out" 1763086085 5347 86ba21d4565095815e58cc09d9302d9e "pdflatex"
+  "output/main.toc" 1763086085 2681 c2a456da2620339185abc45d05fc043a "pdflatex"
   (generated)
   "output/EDA_prep.aux"
   "output/ML_train.aux"
