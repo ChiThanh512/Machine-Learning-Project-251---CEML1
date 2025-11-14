@@ -1,8 +1,8 @@
-PWD c:/Users/taiko/HCMUT/K251/CO3117_ML/BTL/Machine-Learning-Project-251---CEML1/HPMR/reports
+PWD c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports
 INPUT c:/texlive/2025/texmf.cnf
 INPUT c:/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT c:/Users/taiko/HCMUT/K251/CO3117_ML/BTL/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
+INPUT c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
 OUTPUT output/main.log
 INPUT ./hcmut_report.cls
 INPUT hcmut_report.cls
