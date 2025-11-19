@@ -29,5 +29,7 @@ Trong notebook, bạn có thể điều chỉnh các tham số của mô hình H
 - Run all cells trong notebook
 - Upload file âm thanh định dạng `.wav` khi được yêu cầu
 - Mô hình sẽ tự động load từ `models/hmm_model_1/` và dự đoán kết quả
-
-## 3. Cấu trúc thư mục mặc định
+## Lưu ý
+- Đảm bảo file âm thanh test có định dạng `.wav`
+- Tần số lấy mẫu khuyến nghị: 16kHz hoặc 22.05kHz
+- Thời lượng âm thanh: tối thiểu 1 giây
