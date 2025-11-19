@@ -4,7 +4,7 @@
 
 ### Bước 1: Mở notebook huấn luyện
 - Mở file `notebooks/main.ipynb` trên Google Colab
-- Upload toàn bộ thư mục `HPMR` lên Colab hoặc mount Google Drive
+- Run all cell trong notebook
 
 ### Bước 2: Cấu hình tham số
 Trong notebook, bạn có thể điều chỉnh các tham số của mô hình HMM:
