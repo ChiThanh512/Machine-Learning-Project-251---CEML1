@@ -29,4 +29,5 @@ Bài tập lớn được thiết kế với các mục tiêu cụ thể sau:
 - **Bắt buộc**: triển khai pipeline học máy truyền thống trên ít nhất một loại dữ liệu.  
 
 - **Khuyến khích**: nếu có thể, thực hiện thêm pipeline học sâu (deep learning) để so sánh  
-  với pipeline truyền thống. Nhóm thực hiện phần mở rộng này sẽ được **cộng điểm thưởng**.  
+  với pipeline truyền thống. Nhóm thực hiện phần mở rộng này sẽ được **cộng điểm thưởng**.
+#### Biên bản họp nhóm: truy cập link: https://drive.google.com/drive/folders/1_E4MrzU_z9hJrt82nCLWWMxLx7tbckh3
