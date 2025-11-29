@@ -7,8 +7,8 @@
 \deptname{KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH}
 
 \coursename{\Large Machine Learning\\ \Large (CO3117)}
-\reporttype{\Large Báo Cáo}
-\title{\LARGE  BÀI TẬP LỚN 1}
+\reporttype{\Large Báo Cáo HPMR}
+\title{\LARGE Hidden Markov Model}
 
 \advisor{
 TS. Lê Thành Sách
@@ -27,13 +27,435 @@ TS. Lê Thành Sách
 \pagestyle{fancy}
 \pagebreak
 \section{Tổng quan}
+Mô hình ẩn Markov (Hidden Markov Model - HMM) là một mô hình thống kê được sử dụng để mô tả các hệ thống mà trạng thái bên trong không thể quan sát trực tiếp, nhưng có thể suy ra thông qua các quan sát bên ngoài. HMM thường được áp dụng trong các lĩnh vực như nhận dạng giọng nói, xử lý ngôn ngữ tự nhiên, sinh học tính toán và nhiều ứng dụng khác.
 
-\section*{Tài liệu tham khảo}
+Trong bài báo cáo này, nhóm sẽ trình bày về các khái niệm cơ bản của HMM, cách xây dựng và huấn luyện mô hình, cũng như các ứng dụng thực tế của nó. Nhóm sẽ sử dụng một tập dữ liệu cụ thể để minh họa quá trình huấn luyện và đánh giá mô hình HMM.
+
+Tập dữ liệu này là bản thu âm các chữ số từ 0 đến 9, được thu thập từ nhiều người nói khác nhau. Mỗi bản ghi âm sẽ được chuyển đổi thành các đặc trưng âm thanh (features) để làm đầu vào cho mô hình HMM. Mục tiêu của chúng tôi là xây dựng một mô hình HMM có khả năng nhận diện chính xác các chữ số dựa trên các đặc trưng này.
+
+Các hiện thực chi tiết và kết quả được trình bày qua \href{https://github.com/ChiThanh512/Machine-Learning-Project-251---CEML1.git}{github}.
+\section{Hidden Markov Model (HMM)}
+\subsection{Định nghĩa HMM}
+
+Về mặt toán học, một Mô hình Markov Ẩn $\lambda$ là một mô hình sinh (generative model) được định nghĩa bởi một bộ 5 thành phần $\lambda = (Q, V, A, B, \pi)$.
+
+\begin{itemize}
+    \item $Q = \{q_1, q_2, \ldots, q_N\}$: Một tập hợp hữu hạn $N$ các \textbf{trạng thái ẩn}. Đây là các trạng thái bên trong của hệ thống mà chúng ta không thể quan sát.
+    
+    \item $V = \{v_1, v_2, \ldots, v_M\}$ (đôi khi được ký hiệu là $\sigma$): Một tập hợp hữu hạn $M$ các \textbf{ký hiệu quan sát} (observation symbols) hoặc ``phát xạ''. Đây là những gì chúng ta có thể nhìn thấy.
+    
+    \item $A = \{a_{ij}\}$: \textbf{Ma trận xác suất chuyển trạng thái} (State Transition Probability Matrix), kích thước $N \times N$.
+    \begin{itemize}
+        \item $a_{ij} = P(z_{t+1} = q_j | z_t = q_i)$, với $z_t$ là trạng thái ẩn tại thời điểm $t$.
+        \item Đây là xác suất chuyển từ trạng thái $q_i$ sang trạng thái $q_j$ ở bước thời gian tiếp theo.
+        \item Ràng buộc: $\sum_{j=1}^{N} a_{ij} = 1$ cho mọi $i$.
+    \end{itemize}
+    
+    \item $B = \{b_j(k)\}$: \textbf{Ma trận xác suất phát xạ} (Emission Probability Matrix), kích thước $N \times M$.
+    \begin{itemize}
+        \item $b_j(k) = P(x_t = v_k | z_t = q_j)$, với $x_t$ là quan sát tại thời điểm $t$.
+        \item Đây là xác suất quan sát được ký hiệu $v_k$ \textit{khi} (given) hệ thống đang ở trạng thái ẩn $q_j$.
+        \item Ràng buộc: $\sum_{k=1}^{M} b_j(k) = 1$ cho mọi $j$.
+    \end{itemize}
+    
+    \item $\pi = \{\pi_i\}$: \textbf{Phân phối xác suất trạng thái ban đầu} (Initial State Probability Distribution), một vector kích thước $N$.
+    \begin{itemize}
+        \item $\pi_i = P(z_1 = q_i)$.
+        \item Đây là xác suất hệ thống bắt đầu ở trạng thái $q_i$ tại thời điểm $t = 1$.
+        \item Ràng buộc: $\sum_{i=1}^{N} \pi_i = 1$.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Giải thuật Forward}
+Giải thuật Forward là một phương pháp động (dynamic programming) được sử dụng để tính toán xác suất của một chuỗi quan sát nhất định \(P(X|\lambda) \) trong HMM.
+\subsubsection*{Hiện thực:}
+Tại vì tính toán xác suất nên số liệu rất nhỏ khi qua các bước sẽ gây nên underflow. Do vậy nên code giải thuật sẽ được tính dưới dạng log.
+
+\textbf{Bước 1: Khởi động} - Tính $\alpha_1(i)$, với $i = 1, 2, \ldots, N$.
+\begin{equation}
+\alpha_1(i) = \pi_i b_i(O_1) \tag{2.2}
+\end{equation}
+
+Với hàm log\_B(O) sẽ trả về giá trị xác suất cho 1 cột tương ứng với quan sát O.
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+        log_alpha[:, 0] = self.logpi + self.log_B(O[0])
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Bước 2: Đệ quy} - Tính $\alpha_t(i)$, với $t = 2, 3, \ldots, T$ và $i = 1, 2, \ldots, N$.
+\begin{equation}
+\alpha_t(i) = \sum_{k=1}^{N} \left[\alpha_{t-1}(k) a_{ki}\right] b_i(O_t) \tag{2.3}
+\end{equation}
+
+Mở rộng 1 cột t của ma trận log alpha \(1 \times N \rightarrow N \times N\) qua phép mở rộng chiều và phép cộng để cho các cột của ma trận bằng nhau.
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    for t in range(1, T):
+        e = self.log_B(O[t])
+        tmp = log_alpha[:, t-1][:, None] + self.logA
+        log_alpha[:, t] = logsumexp(tmp, axis=0) + e
+\end{lstlisting}
+\end{tcolorbox}
+
+Với hàm logsumexp giúp tính log tổng của các số.
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+def logsumexp(x, axis=None):
+    m = np.max(x, axis=axis, keepdims=True)
+    s = m + np.log(np.sum(np.exp(x - m), axis=axis, keepdims=True))
+    return np.squeeze(s, axis=axis)
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Bước 3: Kết thúc} - Tính $P(O|\lambda)$
+\begin{equation}
+P(O|\lambda) = \sum_{i=1}^{N} \alpha_T(i) \tag{2.4}
+\end{equation}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+        log_prob = logsumexp(log_alpha[:, T-1])
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Độ phức tạp:} $O(N^2T)$
+
+\subsection{Giải thuật Backward}
+\subsubsection*{Hiện thực:  }
+
+Tương tự như giải thuật Forward, ta sẽ tính dưới dạng log để tránh underflow.
+
+\textbf{Bước 1: Khởi động} - $\beta_T(i) = 1$, với $i = 1, 2, \ldots, N$.
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+ logBeta[:, T-1] = 0.0
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Bước 2: Đệ quy} - Tính $\beta_t(i)$ với
+\begin{itemize}
+    \item $t = T - 1, T - 2, \ldots, 1$
+    \item $i = 1, 2, \ldots, N$
+\end{itemize}
+
+\begin{equation}
+\beta_t(i) = \sum_{k=1}^{N} \left[a_{ik} b_k(O_{t+1}) \beta_{t+1}(k)\right]
+\end{equation}
+
+Tương như cách tính của Forward
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    for t in range(T-2, -1, -1):
+        e_next = self.log_B(O[t+1])
+        tmp = self.logA + e_next[None, :] + logBeta[:, t+1][None, :]
+        logBeta[:, t] = logsumexp(tmp, axis=1)
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Độ phức tạp:} $O(N^2T)$
+
+\subsection{Giải thuật Viterbi}
+\subsubsection*{Hiện thực:  }
+
+Tương tự như giải thuật Forward, ta sẽ tính dưới dạng log để tránh underflow.
+
+\textbf{Bước 1: Khởi động} - Tính $\delta_1(i)$ và $\varphi_1(i)$ theo công thức (3.1) và (3.2), với $i = 1, 2, \ldots, N$.
+
+\begin{align}
+\delta_1(i) &= \pi_i b_i(O_1) \tag{3.1} \\
+\varphi_1(i) &= 0 \tag{3.2}
+\end{align}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    delta = np.full((self.N, T), -np.inf)
+    phi = np.zeros((self.N, T), dtype=np.int32)
+    delta[:, 0] = self.logpi + self.log_B(O[0])
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Bước 2: Đệ quy} - Với $t = 2, \ldots, T$ và $i = 1, \ldots, N$, cập nhật $\delta_t(i)$ và $\varphi_t(i)$ theo công thức (3.3) và (3.4).
+
+\begin{align}
+\delta_t(i) &= \max_{1 \leq k \leq N} \left[\delta_{t-1}(k) a_{ki}\right] b_i(O_t) \tag{3.3} \\
+\varphi_t(i) &= \operatorname{argmax}_{1 \leq k \leq N} \left[\delta_{t-1}(k) a_{ki}\right] \tag{3.4}
+\end{align}
+
+Ta sẽ tính như forward và lấy max theo cột.
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    for t in range(1, T):
+        e = self.log_B(O[t])
+        scores = delta[:, t-1][:, None] + self.logA
+        phi[:, t] = np.argmax(scores, axis=0)
+        delta[:, t] = np.max(scores, axis=0) + e
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Bước 3: Kết thúc} - Xác định trạng thái tối ưu tại thời điểm $T$ và xác suất tương ứng, dùng công thức (3.5) và (3.6).
+
+\begin{align}
+P^* &= \max_{1 \leq k \leq N} \delta_T(k) \tag{3.5} \\
+q_T^* &= \operatorname{argmax}_{1 \leq k \leq N} \delta_T(k) \tag{3.6}
+\end{align}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    path = np.zeros(T, dtype=np.int32)
+    path[T-1] = np.argmax(delta[:, T-1])
+    log_path_prob = np.max(delta[:, -1])
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Bước 4: Truy vết ngược} - Xác định dãy trạng thái tối ưu dùng Bảng $\varphi_t(i)$ và công thức (3.7). Với $t = T-1, T-2, \ldots, 1$
+
+\begin{equation}
+q_t^* = \varphi_{t+1}(q_{t+1}^*) \tag{3.7}
+\end{equation}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    for t in range(T-2, -1, -1):
+        path[t] = phi[path[t+1], t+1]
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Độ phức tạp:} $O(N^2T)$
+
+\subsection{Giải thuật huấn luyện tham số Baum-Welch}
+
+Đối với dạng quan sát, ta sẽ có cách hiện thực khác nhau. Do vậy nhóm sẽ hiện thực HMM dưới dạng 1 class:
+
+\textbf{class BaseHMM}
+
+\begin{itemize}
+\item \textbf{Phương thức khởi tạo} - Nhận vào số trạng thái ẩn N, số quan sát M và khởi tạo các tham số $\pi$, $A$, $B$ ngẫu nhiên.
+\item \textbf{Phương thức log\_B(O)} - Nhận vào một quan sát O và trả về xác suất phát xạ dưới dạng log.
+\item \textbf{Phương thức forward(O)} - Thực hiện giải thuật Forward và trả về log xác suất của chuỗi quan sát O.
+\item \textbf{Phương thức backward(O)} - Thực hiện giải thuật Backward và trả về ma trận log beta.
+\item \textbf{Phương thức viterbi(O)} - Thực hiện giải thuật Viterbi và trả về dãy trạng thái tối ưu cùng log xác suất tương ứng.
+\item \textbf{fit(self, data, n\_loop=50, bound\_learning=1e-4)} - Thực hiện giải thuật Baum-Welch để huấn luyện tham số mô hình dựa trên tập train D.
+\end{itemize}
+
+Hiện thực class này sẽ không cố định việc khởi tạo các ma trận tham số ban đầu là ngẫu nhiên mà sẽ nhận vào các ma trận để người dùng có thể tự config việc sử dụng.
+
+Phân phối xác suất của quan sát O thường có 2 dạng: Catagorical và Gaussian. Do vậy nhóm sẽ kế thừa class BaseHMM để hiện thực 2 class con. Hầu như khác biệt giữa 2 dạng là ở hàm logB và fit vì vậy nên các phương thức còn lại sẽ hiện thực ở lớp basic.
+
+\subsubsection*{Giải thuật Baum-Welch (EM Algorithm)}
+
+Giải thuật Baum-Welch là một thuật toán EM (Expectation-Maximization) được sử dụng để ước lượng các tham số của HMM khi chỉ có chuỗi quan sát $O$ mà không biết chuỗi trạng thái ẩn.
+
+\textbf{Bước 1: Khởi động} - Gán giá trị ngẫu nhiên cho các thông số cần học $\pi$, $A$, $B$. Lưu ý, từng hàng của ma trận $A$, $B$ và vector $\pi$ phải là các phân phối xác suất. 
+
+Lặp lại E-step và M-step đến khi hội tụ:
+
+\textbf{Bước 2: Thực hiện bước tính kỳ vọng (E-step):}
+\begin{itemize}
+    \item Tính $\alpha_t(i)$ và $\beta_t(i)$ dùng giải thuật lan truyền thuận và ngược ở trên.
+    
+\textbf{Hàm logB}
+
+Đối với \textbf{discreteHMM}
+
+Trả về 1 cột tương ứng quan sát o\_t của ma trận logB.
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    def log_B(self, o_t) -> np.ndarray:
+        return self.logB[:, o_t] 
+\end{lstlisting}
+\end{tcolorbox}
+
+Đối với \textbf{continueHMM}
+
+Trả về cả 1 ma trận log xác suất của cả chuỗi quan sát O theo 2 tham số mean và covar của mô hình hiện tại.
+
+Xác suất của một quan sát \(O_t\) cho D chiều theo phân phối Gaussian đa biến được tính theo công thức:
+
+\[p(O_t | \mu, \sigma) = \frac{1}{(2\pi)^{D/2} |\sigma|^{1/2}} \exp\left(-\frac{1}{2}(O_t - \mu)^T \sigma^{-1} (O_t - \mu)\right)\]
+
+Lấy log:
+
+\[\log p(O_t | \mu, \sigma) = -\frac{D}{2}\log(2\pi) - \frac{1}{2}\log|\sigma| - \frac{1}{2}(O_t - \mu)^T \sigma^{-1} (O_t - \mu)\]
+
+Ta có: 
+
+- self.\_precisions là ma trận nghịch đảo của covar 
+
+- np.einsum('ntd,ndk,ntk->nt', diff, self.\_precisions, diff)
+
+Tính toán \(\text{quad}[i,t] = (O_t - \mu_i)^T \Sigma_i^{-1} (O_t - \mu_i)\) 
+
+- \(\text{log\_norm\_consts}[i] = -\frac{D}{2}\log(2\pi) - \frac{1}{2}\log|\sigma_i|\).
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    def log_B_sequence(self, O: np.ndarray) -> np.ndarray:
+        T = O.shape[0]
+        diff = O[None, :, :] - self.means[:, None, :]
+        quad = np.einsum('ntd,ndk,ntk->nt', diff, self._precisions, diff)
+        return self._log_norm_consts[:, None] - 0.5 * quad
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Tính toán forward và backward:}
+
+Tận dụng lại ma trận xác suất phát xạ đã tính ở bước trên để tiết kiệm thời gian tính toán.
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    log_prob, log_alpha, log_b_all = self.forward(O)
+    logBeta = self.backward(O, log_b_all)
+\end{lstlisting}
+\end{tcolorbox}
+
+    \item Tính $\xi_t(i,j)$ và $\gamma_t(i)$ theo công thức (4.3) và (4.2).
+\end{itemize}
+
+\textbf{Biến xi - Xác suất chuyển trạng thái:}
+
+Biến $\xi_t(i,j)$ biểu thị xác suất hệ thống ở trạng thái $S_i$ tại thời điểm $t$ và chuyển sang trạng thái $S_j$ tại thời điểm $t+1$:
+
+\begin{equation}
+\xi_t(i,j) = P(q_t = S_i, q_{t+1} = S_j | O, \lambda)
+\end{equation}
+
+\begin{equation}
+\xi_t(i,j) = \frac{\alpha_t(i) a_{ij} b_j(O_{t+1}) \beta_{t+1}(j)}{P(O|\lambda)} \tag{4.3}
+\end{equation}
+
+Trong log-domain:
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+# log_xi: (N, N, T-1)
+# tmp[i,j,t] = log_alpha[i,t] + logA[i,j] + log_b[j,t+1] + logBeta[j,t+1]
+    tmp = (log_alpha[:, :-1].reshape(self.N, 1, T-1)      # (N, 1, T-1)
+        + self.logA[:, :, None]                         # (N, N, 1)
+        + log_b_all[None, :, 1:]                        # (1, N, T-1)
+        + logBeta[None, :, 1:])                         # (1, N, T-1)
+    log_xi = tmp - log_prob
+    xi = np.exp(log_xi)  # (N, N, T-1)
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Biến gamma - Xác suất trạng thái:}
+
+Biến $\gamma_t(i)$ biểu thị xác suất hệ thống ở trạng thái $S_i$ tại thời điểm $t$, cho trước chuỗi quan sát $O$ và mô hình $\lambda$:
+
+\begin{equation}
+\gamma_t(i) = P(q_t = S_i | O, \lambda) = \frac{\alpha_t(i)\beta_t(i)}{\sum_{i=1}^{N} \alpha_t(i)\beta_t(i)} \tag{4.2}
+\end{equation}
+
+Trong log-domain:
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+    log_gamma = log_alpha + logBeta - log_prob
+    gamma = np.exp(log_gamma)  # (N, T)
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Bước 3: Thực hiện bước cực đại hóa kỳ vọng (M-step):} Tính $\pi$, $A$, $B$ dùng các công thức (4.5), (4.6), và (4.7).
+
+\textbf{Cập nhật phân phối ban đầu $\pi$:}
+
+\begin{equation}
+\pi_i = \gamma_1(i) \tag{4.5}
+\end{equation}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+pi_numerator += gamma[:, 0]
+# M-step
+self.pi = pi_numerator / len(data)
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Cập nhật ma trận chuyển trạng thái $A$:}
+
+\begin{equation}
+a_{ij} = \frac{\sum_{t=1}^{T-1} \xi_t(i,j)}{\sum_{t=1}^{T-1} \gamma_t(i)} \tag{4.6}
+\end{equation}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+A_numerator += xi.sum(axis=2)
+A_denominator += gamma[:, :-1].sum(axis=1, keepdims=True)
+# M-step
+self.A = A_numerator / (A_denominator + 1e-12)
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Cập nhật ma trận phát xạ $B$:}
+
+Đối với \textbf{discreteHMM} (quan sát rời rạc):
+
+\begin{equation}
+b_j(k) = \frac{\sum_{t=1, O_t=v_k}^{T} \gamma_t(j)}{\sum_{t=1}^{T} \gamma_t(j)} \tag{4.7}
+\end{equation}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+B_denominator += gamma.sum(axis=1, keepdims=True)
+O_matrix = np.zeros((T, M))
+O_matrix[np.arange(T), O] = 1.0 # O_matrix[t, O[t]] = 1
+B_numerator += gamma @ O_matrix
+# M-step
+self.B = B_numerator / (B_denominator + 1e-12)
+\end{lstlisting}
+\end{tcolorbox}
+
+Đối với \textbf{continueHMM} (quan sát liên tục - Gaussian):
+
+\begin{align}
+\mu_j &= \frac{\sum_{t=1}^{T} \gamma_t(j) O_t}{\sum_{t=1}^{T} \gamma_t(j)} \tag{4.8} \\
+\sigma_j &= \frac{\sum_{t=1}^{T} \gamma_t(j) (O_t - \mu_j)(O_t - \mu_j)^T}{\sum_{t=1}^{T} \gamma_t(j)} \tag{4.9}
+\end{align}
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+gamma_sum += gamma.sum(axis=1, keepdims=True)
+means_numerator += gamma @ O  # (N,T) @ (T,D)
+
+# Covariance accumulation using einsum
+cov_numerator += np.einsum('nt,td,tk->ndk', gamma, O, O)
+
+# M-step: update means and covariances
+self.means = np.nan_to_num(means_numerator / (gamma_sum + 1e-12))
+S2_term = np.nan_to_num(cov_numerator / (gamma_sum[:, :, None] + 1e-12))
+mean_outers = self.means[:, :, None] @ self.means[:, None, :]
+self.covariances = S2_term - mean_outers
+\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Điều kiện dừng:} Thuật toán lặp lại cho đến khi log-likelihood hội tụ:
+
+Với log-likelihood tại mỗi vòng lặp là tổng của log xác suất được trả về từ hàm forward cho tất cả quan sát trong tập train.
+
+\begin{equation}
+|LL_{iter} - LL_{iter-1}| < \epsilon
+\end{equation}
+
+\textbf{Độ phức tạp:} $O(N^2T \cdot K)$ với $K$ là số vòng lặp EM.
+
+
 \include{EDA_prep}
-\include{Feature_extraction}
 \include{ML_train}
-\include{DL_train}
-% \addcontentsline{toc}{section}{Tài liệu tham khảo}
-% \bibliographystyle{plainnat} % Kiểu tài liệu tham khảo
-% \bibliography{references} % File .bib chứa tài liệu tham khảo
+\section*{Tài liệu tham khảo}
+
+\label{[1]} [1] L. R. Rabiner, 1989, "\textit{A Tutorial on Hidden Markov Models and Selected Applications in Speech Recognition}," Proceedings of the IEEE.
+
+\label{[2]} [2] Nguyen The Cuong, et al, 2023, "\textit{CƠ SỞ TOÁN VÀ MFCCS –- TRÍCH XUẤT ĐẶC TRƯNG ÂM THANH}," HO CHI MINH CITY UNIVERSITY OF EDUCATION JOURNAL OF SCIENCE, vol 20, no 7, 1155 -- 1165. 
+
+\label{[3]} [3] abhijat\_sarari, 2025, "\textit{Mel--frequency Cepstral Coefficients (MFCC) for Speech Recognition}," \href{https://www.geeksforgeeks.org/nlp/mel-frequency-cepstral-coefficients-mfcc-for-speech-recognition/}{link}.
+
+\label{[4]} [4] Phan Văn Sự, "\textit{[Xử lý tiếng nói] Bài 2.7 - Phân tích MFCC}," \href{https://youtu.be/-8k5zwSzh5I?si=Doqxc-8dmOFBfqh8q}{link}.
+
+\newpage
 \end{document}

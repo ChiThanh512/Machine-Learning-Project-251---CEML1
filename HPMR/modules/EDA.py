@@ -7,6 +7,16 @@ import librosa.display as dsp
 import matplotlib.pyplot as plt
 from IPython.display import Audio
 
+
+## Định nghĩa các tham số cơ bản
+SR = 22050 #tần số lấy mẫu
+N_FFT = 512 #int(0.025*SR) # khoảng lấy mẫu fft 25ms
+N_HOP = 256 #int(0.010*SR) # bước nhảy giữa 2 frame
+N_MFCC = 13
+N_MELS =40
+TOP_DB = 40
+pre_emphasis = 0.95
+
 def create_dataframe_from_folders(data_path):
     """
     Quét thư mục dữ liệu có cấu trúc {digit_name}/{file}.wav và tạo DataFrame.
@@ -83,7 +93,8 @@ def get_random_audio(df, digit=0):
     
     # Tải và hiển thị sóng âm
     try:
-        data, sr = librosa.load(path, sr=None)
+        data, sr = librosa.load(path, sr=SR)
+        data, index = librosa.effects.trim(data, top_db=TOP_DB)
         plt.figure(figsize=(10, 3))
         dsp.waveshow(data, sr=sr)
         plt.title(f"Audio of digit: {actual_digit}")
@@ -123,8 +134,135 @@ def get_random_audio_raw(df, digit=0):
     actual_digit = random_sample['digit']
     
     try:
-        data, sr = librosa.load(path, sr=None)        
-        return Audio(data=data, rate=sr)
+        data, sr = librosa.load(path, sr=SR)  
+        data, index = librosa.effects.trim(data, top_db=TOP_DB)      
+        return data, sr
     except Exception as e:
         print(f"Lỗi khi tải hoặc hiển thị file {path}: {e}")
         return None
+def get_audio_spectogram(df = None):
+    # Creating subplots
+    fig,ax = plt.subplots(5,2,figsize=(15,30))
+
+    # Initializing row and column variables for subplots
+    row = 0
+    column = 0
+
+    for digit in range(10):  
+        # Read the audio file
+        data,sr = get_random_audio_raw(df,digit)
+        # Apply Short-Time-Fourier-Transformer to transform data
+        D = librosa.stft(data, n_fft = N_FFT, hop_length = N_HOP)
+        # Converting frequency to decible
+        S_db = librosa.amplitude_to_db(np.abs(D),ref=np.max)
+        # Plot the transformed data
+        ax[row,column].set_title(f"Spectogram of digit {digit}")
+        librosa.display.specshow(S_db,x_axis='time',y_axis='log',ax=ax[row,column])
+    
+        # Conditions for positioning of the plots
+        if column == 1:
+            column = 0
+            row += 1
+        else:
+            column+=1
+        
+    
+    plt.tight_layout(pad=3)   
+    plt.show()
+
+
+
+def extract_features_mfcc(audio, sample_rate):
+        y = np.append(audio[0], audio[1:] - pre_emphasis * audio[:-1])
+        mfcc = librosa.feature.mfcc(
+        y=y,
+        sr=sample_rate,
+        n_mfcc=N_MFCC,          # số hệ số cepstral đầu ra
+        n_fft=N_FFT,          # kích thước FFT
+        hop_length=N_HOP,     # khoảng nhảy giữa các frame
+        n_mels=N_MELS,          # số filter Mel
+        fmin=300,           # tần số thấp nhất
+        fmax=8000,          # tần số cao nhất
+        dct_type=2,         # kiểu biến đổi DCT
+        norm='ortho',       # chuẩn hóa DCT
+        lifter=22           # hệ số nâng cao cepstral
+        )
+        return mfcc
+
+def get_audio_mfcc(df = None):
+    # Creating subplots
+    fig,ax = plt.subplots(5,2,figsize=(15,30))
+
+    # Initializing row and column variables for subplots
+    row = 0
+    column = 0
+
+    for digit in range(10):  
+        # Get Audio of different class(0-9)
+        audio_data,sample_rate = get_random_audio_raw(df, digit)
+    
+        # Extract Its MFCC
+        mfcc = extract_features_mfcc(audio_data,sample_rate)
+        print(f"Shape of MFCC of audio digit {digit} ---> ",mfcc.shape)
+    
+        # Display the plots and its title
+        ax[row,column].set_title(f"MFCC of audio class {digit} across time")
+        librosa.display.specshow(mfcc,sr=sample_rate,ax=ax[row,column])
+    
+        # Set X-labels and y-labels
+        ax[row,column].set_xlabel("Time")
+        ax[row,column].set_ylabel("MFCC Coefficients")
+    
+        # Conditions for positioning of the plots
+        if column == 1:
+            column = 0
+            row += 1
+        else:
+            column+=1
+        
+    
+    plt.tight_layout(pad=3)   
+    plt.show()
+
+
+
+
+
+def get_dataset(root_folder_path):
+    data_set = []
+    data_set_trimmed = []
+    if not os.path.exists(root_folder_path):
+        print(f"Lỗi: Không tìm thấy thư mục '{root_folder_path}'")
+        return
+
+    for label in tqdm(os.listdir(root_folder_path), desc="Đang đọc dữ liệu"):
+        folder_path = os.path.join(root_folder_path, label)
+        if not os.path.isdir(folder_path):
+            continue
+            
+        for file_name in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, file_name)
+            audio,sr = librosa.load(file_path, sr=SR)
+            duration = librosa.get_duration(y=audio, sr=sr)
+            audio_trimmed, index = librosa.effects.trim(audio, top_db=TOP_DB)
+            duration_trimmed = librosa.get_duration(y=audio_trimmed, sr=sr)
+            if audio is not None:
+                data_set.append([audio, label,duration])
+                data_set_trimmed.append([audio_trimmed, label, duration_trimmed])
+    # Lưu dưới dạng object array để chứa các chuỗi có độ dài khác nhau
+    
+    print(f"\nĐã đọc xong dữ liệu!")
+    label_to_digit = {
+        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
+        'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9
+    }
+    def to_digit(x):
+        xs = str(x).lower()
+        if xs.isdigit() and int(xs) in range(10):
+            return int(xs)
+        return label_to_digit.get(xs, None)
+    df_full = pd.DataFrame(data_set, columns=['audio', 'class', 'duration'])
+    df_full['class'] = df_full['class'].apply(to_digit).astype(int)
+    df_trim = pd.DataFrame(data_set_trimmed, columns=['audio', 'class', 'duration'])
+    df_trim['class'] = df_trim['class'].apply(to_digit).astype(int)
+    return df_full, df_trim

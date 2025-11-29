@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.2)  15 SEP 2025 08:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.2)  14 NOV 2025 09:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/BTL1/reports/main.tex
-(c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/BTL1/reports/main.tex
+**c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
+(c:/Users/chith/Downloads/Study/HK251/ML/Machine-Learning-Project-251---CEML1/HPMR/reports/main.tex
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-07-20>
 (./hcmut_report.cls
@@ -51,10 +51,11 @@ Package scrextend Info: You've used standard option `final'.
 (scrextend)             you'd have to use `draft=false' there
 (scrextend)             instead of `final', too.
 )
-Package scrextend Info: File `scrsize12pt.clo' used to setup font sizes on input line 12.
- (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrsize12pt.clo
-File: scrsize12pt.clo 2025/06/04 v3.45 KOMA-Script font size class option (12pt)
-) (c:/texlive/2025/texmf-dist/tex/latex/vntex/vntex.sty
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <13> not available
+(Font)              size <12> substituted on input line 12.
+
+(c:/texlive/2025/texmf-dist/tex/latex/vntex/vntex.sty
 Package: vntex 2009/07/12 v1.1 support for Vietnamese
  (c:/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
@@ -347,7 +348,7 @@ Package hyphsubst Info: Redefined: \l@vietnamese
 (hyphsubst)             old value: 88
 (hyphsubst)             new value: 2 on input line 227.
 ) (c:/texlive/2025/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2025/07/13 v25.11 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
+Package: babel 2025/08/03 v25.12 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
 \babel@savecnt=\count295
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input line 2045.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input line 2047.
@@ -908,7 +909,7 @@ File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
 ) (output/main.aux
 Package babel Info: 'vietnamese' activates 'vietnamese' shorthands.
 (babel)             Reported on input line 9.
- (output/EDA_prep.aux) (output/Feature_extraction.aux) (output/ML_train.aux) (output/DL_train.aux))
+ (output/EDA_prep.aux) (output/ML_train.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
@@ -981,7 +982,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \marginparwidth=111.0pt
 * \marginparsep=11.0pt
 * \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \skip\footins=11.69997pt plus 5.19942pt minus 2.60054pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -993,11 +994,12 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<graphics/hcmut.png, id=11, 291.0072pt x 293.898pt>
+<graphics/hcmut.png, id=115, 291.0072pt x 293.898pt>
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
 Package pdftex.def Info: graphics/hcmut.png  used on input line 24.
 (pdftex.def)             Requested size: 116.4008pt x 117.5571pt.
+LaTeX Font Info:    Calculating math sizes for size <13> on input line 24.
 LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 24.
 (c:/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
@@ -1018,17 +1020,18 @@ LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 24
  (c:/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <13> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 24.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9.62007> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 24.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.80008> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 24.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
+LaTeX Font Info:    Calculating math sizes for size <32.34409> on input line 24.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <32.34409> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 24.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <23.9348> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 24.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <19.40665> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 24.
 
 
@@ -1053,47 +1056,572 @@ LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 29
 (c:/texlive/2025/texmf-dist/tex/latex/vntex/t5cmtt.fd
 File: t5cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `T5/cmtt/bx/n' in size <12> not available
+LaTeX Font Info:    Font shape `T5/cmtt/bx/n' in size <13> not available
 (Font)              Font shape `T5/cmtt/m/n' tried instead on input line 29.
  [3]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 43.
+ (c:/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
 
 File: graphics/hcmut.png Graphic file (type png)
 <use graphics/hcmut.png>
-Package pdftex.def Info: graphics/hcmut.png  used on input line 32.
+Package pdftex.def Info: graphics/hcmut.png  used on input line 55.
 (pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
-[4]
+[4{c:/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}] (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/09/23 1.10c listings language file
+)
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 93.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[5
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.93 
+     ]
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.115 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.115 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.115 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.115 \begin{equation}
+                      
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 139.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[6]
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.146 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.146 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.146 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.146 \begin{equation}
+                      
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 182.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[7]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 218.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[8]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 251.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[9]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 285.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[10]
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.324 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.324 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.324 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.324 \begin{equation}
+                      
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 345.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[11]
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.351 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.351 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.351 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.351 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.368 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.368 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.368 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.368 \begin{equation}
+                      
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 382.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[12]
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.382 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.382 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.382 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.382 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.399 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.399 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.399 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.399 \begin{equation}
+                      
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 436.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[13]
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.441 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.441 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.441 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.441 \begin{equation}
+                      
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 448.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[14]
 \openout2 = `EDA_prep.aux'.
 
- (./EDA_prep.tex)
-\openout2 = `Feature_extraction.aux'.
+ (./EDA_prep.tex
+<./graphics/Dac_trung_am_hoc_0.png, id=334, 252.945pt x 223.58531pt>
+File: ./graphics/Dac_trung_am_hoc_0.png Graphic file (type png)
+<use ./graphics/Dac_trung_am_hoc_0.png>
+Package pdftex.def Info: ./graphics/Dac_trung_am_hoc_0.png  used on input line 10.
+(pdftex.def)             Requested size: 241.84843pt x 213.77971pt.
+<./graphics/Dac_trung_am_hoc_1.png, id=335, 299.61937pt x 137.7647pt>
+File: ./graphics/Dac_trung_am_hoc_1.png Graphic file (type png)
+<use ./graphics/Dac_trung_am_hoc_1.png>
+Package pdftex.def Info: ./graphics/Dac_trung_am_hoc_1.png  used on input line 25.
+(pdftex.def)             Requested size: 241.84843pt x 111.20409pt.
 
- (./Feature_extraction.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 21--29
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 29.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[15
+
+ <./graphics/Dac_trung_am_hoc_0.png>]
+Underfull \hbox (badness 3954) in paragraph at lines 43--43
+[]\T5/ptm/m/n/13 …m s¡ng, câ n«ng
+ []
+
+
+Underfull \hbox (badness 4084) in paragraph at lines 45--45
+[]\T5/ptm/m/n/13 …m s­c g­t, nhi·u
+ []
+
+
+Underfull \hbox (badness 1466) in paragraph at lines 47--47
+[]\T5/ptm/m/n/13 Gièng /s/ nh÷ng câ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+[]\T5/ptm/m/n/13 Th¶m d£i n«ng l÷ñng th§p
+ []
+
+
+Underfull \hbox (badness 1466) in paragraph at lines 48--48
+\T5/ptm/m/n/13 hìn; giång nú s¡ng
+ []
+
+
+Underfull \hbox (badness 5939) in paragraph at lines 50--50
+[]\T5/ptm/m/n/13 …m s­c s­c, n«ng
+ []
+
+
+Underfull \hbox (badness 6510) in paragraph at lines 51--51
+[]\T5/ptm/m/n/13 …m m·m hìn, câ
+ []
+
+
+Overfull \hbox (34.85965pt too wide) in paragraph at lines 39--53
+ [][] 
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 54.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[16 <./graphics/Dac_trung_am_hoc_1.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 54.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--78
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 86.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[18]
+<./graphics/STFT_0.png, id=357, 395.22656pt x 319.1925pt>
+File: ./graphics/STFT_0.png Graphic file (type png)
+<use ./graphics/STFT_0.png>
+Package pdftex.def Info: ./graphics/STFT_0.png  used on input line 107.
+(pdftex.def)             Requested size: 290.22107pt x 234.3918pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--111
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 133.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[19]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 150.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[20 <./graphics/STFT_0.png>]
+<./graphics/MFCC_0.png, id=370, 450.9347pt x 164.86594pt>
+File: ./graphics/MFCC_0.png Graphic file (type png)
+<use ./graphics/MFCC_0.png>
+Package pdftex.def Info: ./graphics/MFCC_0.png  used on input line 193.
+(pdftex.def)             Requested size: 241.84843pt x 88.4225pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--197
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 197.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[21]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 222.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[22 <./graphics/MFCC_0.png>]
+<./graphics/MFCC_1.png, id=382, 397.485pt x 323.70938pt>
+File: ./graphics/MFCC_1.png Graphic file (type png)
+<use ./graphics/MFCC_1.png>
+Package pdftex.def Info: ./graphics/MFCC_1.png  used on input line 233.
+(pdftex.def)             Requested size: 290.22107pt x 236.36021pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 229--237
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--245
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 245.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[23 <./graphics/MFCC_1.png>]
+<./graphics/EDA_1.png, id=390, 475.02469pt x 325.215pt>
+File: ./graphics/EDA_1.png Graphic file (type png)
+<use ./graphics/EDA_1.png>
+Package pdftex.def Info: ./graphics/EDA_1.png  used on input line 254.
+(pdftex.def)             Requested size: 314.40001pt x 215.25293pt.
+<./graphics/EDA_3.png, id=391, 636.87938pt x 413.29407pt>
+File: ./graphics/EDA_3.png Graphic file (type png)
+<use ./graphics/EDA_3.png>
+Package pdftex.def Info: ./graphics/EDA_3.png  used on input line 263.
+(pdftex.def)             Requested size: 314.40001pt x 204.02307pt.
+<./graphics/EDA_2.png, id=392, 509.5035pt x 341.1144pt>
+File: ./graphics/EDA_2.png Graphic file (type png)
+<use ./graphics/EDA_2.png>
+Package pdftex.def Info: ./graphics/EDA_2.png  used on input line 272.
+(pdftex.def)             Requested size: 314.40001pt x 210.48936pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 249--276
+
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 276.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[24 <./graphics/EDA_1.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 276.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[25 <./graphics/EDA_3.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 295.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[26 <./graphics/EDA_2.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 331.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[27])
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 448.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[28]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 448.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[29]
 \openout2 = `ML_train.aux'.
 
- (./ML_train.tex)
-\openout2 = `DL_train.aux'.
+ (./ML_train.tex
+<graphics/X_train1.png, id=476, 1221.06187pt x 840.13875pt>
+File: graphics/X_train1.png Graphic file (type png)
+<use graphics/X_train1.png>
+Package pdftex.def Info: graphics/X_train1.png  used on input line 13.
+(pdftex.def)             Requested size: 483.69687pt x 332.80621pt.
+<graphics/X_train2.png, id=477, 1202.24156pt x 822.82407pt>
+File: graphics/X_train2.png Graphic file (type png)
+<use graphics/X_train2.png>
+Package pdftex.def Info: graphics/X_train2.png  used on input line 20.
+(pdftex.def)             Requested size: 483.69687pt x 331.04475pt.
 
- (./DL_train.tex) (output/main.aux (output/EDA_prep.aux) (output/Feature_extraction.aux) (output/ML_train.aux) (output/DL_train.aux))
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 25.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[30
+
+
+
+ <./graphics/X_train1.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 43.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[31 <./graphics/X_train2.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 82.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[32]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 120.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[33]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 138.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[34]
+<graphics/confuse.png, id=541, 478.4274pt x 498.663pt>
+File: graphics/confuse.png Graphic file (type png)
+<use graphics/confuse.png>
+Package pdftex.def Info: graphics/confuse.png  used on input line 144.
+(pdftex.def)             Requested size: 386.95897pt x 403.33653pt.
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 149.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[35 <./graphics/confuse.png>]
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 190.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[36])
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 449.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[37]
+Overfull \hbox (62.50824pt too wide) in paragraph at lines 456--457
+[]\T5/ptm/m/n/13 [3] abhijat_sarari, 2025, "\T5/ptm/m/it/13 Mel--frequency Cepstral Coefficients (MFCC) for Speech Recognition\T5/ptm/m/n/13 ,"[][]link[][]. 
+ []
+
+
+
+File: graphics/hcmut.png Graphic file (type png)
+<use graphics/hcmut.png>
+Package pdftex.def Info: graphics/hcmut.png  used on input line 460.
+(pdftex.def)             Requested size: 28.44968pt x 28.44977pt.
+[38
+
+
+] (output/main.aux (output/EDA_prep.aux) (output/ML_train.aux))
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-07-20>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F9726C0FF60CDAEABB02C9B1238D0B8E;94.
+(rerunfilecheck)             Checksum: 86BA21D4565095815E58CC09D9302D9E;5347.
  ) 
 Here is how much of TeX's memory you used:
- 29865 strings out of 467801
- 559428 string characters out of 5436090
- 1145835 words of memory out of 5000000
- 57987 multiletter control sequences out of 15000+600000
- 661203 words of font info for 98 fonts, out of 8000000 for 9000
+ 31075 strings out of 467801
+ 574562 string characters out of 5436090
+ 1197661 words of memory out of 5000000
+ 58905 multiletter control sequences out of 15000+600000
+ 687710 words of font info for 131 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 125i,23n,121p,497b,597s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vntt12.pfb>
-Output written on output/main.pdf (4 pages, 106223 bytes).
+ 125i,24n,121p,593b,1463s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmri8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vntt12.pfb>
+Output written on output/main.pdf (38 pages, 1546563 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 683 PDF objects out of 1000 (max. 8388607)
+ 589 compressed objects within 6 object streams
+ 284 named destinations out of 1000 (max. 500000)
+ 289 words of extra memory for PDF output out of 10000 (max. 10000000)
 

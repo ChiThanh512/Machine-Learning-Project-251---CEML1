@@ -8,7 +8,7 @@
 \LoadClass[a4paper]{article}
 
 % Set up font
-\RequirePackage[fontsize=12pt]{scrextend}
+\RequirePackage[fontsize=13pt]{scrextend}
 \RequirePackage[utf8]{vntex}
 \RequirePackage[T5]{fontenc}
 \RequirePackage{mathptmx} % Apply Times New Roman font
@@ -204,7 +204,7 @@
             Sinh viên thực hiện:  \@student 
         \end{tabular}
         \vfill
-        \MakeUppercase{Thành phố Hồ Chí Minh, 05/09/2025}
+        \MakeUppercase{Thành phố Hồ Chí Minh, 05/11/2025}
     \end{center}
     \cleardoublepage
     \pagestyle{fancy}
